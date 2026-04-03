@@ -1,20 +1,50 @@
 {
   "name": "frontend-monorepo",
+  "version": "0.0.0",
+  "description": "Production-ready Next.js monorepo powered by Turborepo.",
   "private": true,
+  "homepage": "https://github.com/your-org/frontend-monorepo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/frontend-monorepo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/frontend-monorepo/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Your Name",
+    "email": "you@example.com",
+    "url": "https://example.com"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "prepare":     "git config core.hooksPath .githooks",
+    "build":       "turbo run build",
+    "dev":         "turbo run dev",
+    "start":       "turbo run start",
+    "lint":        "turbo run lint",
+    "lint:fix":    "turbo run lint:fix",
+    "test":        "turbo run test",
+    "test:watch":  "turbo run test:watch",
+    "check-types": "turbo run check-types",
+    "format":      "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "format:check":"prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "clean":       "turbo run clean",
+    "clean:all":   "turbo run clean && rm -rf node_modules",
+    "upgrade":     "npx npm-check-updates -u && npm install"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
     "turbo": "^2.9.3",
     "typescript": "5.9.2"
   },
-  "packageManager": "pnpm@9.0.0",
   "engines": {
-    "node": ">=18"
-  }
+    "node": ">=18",
+    "npm": ">=10"
+  },
+  "packageManager": "npm@10.9.7"
 }
