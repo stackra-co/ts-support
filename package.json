@@ -1,15 +1,15 @@
 {
-  "name": "frontend-monorepo",
+  "name": "pixielity-frontend-monorepo",
   "version": "0.0.0",
-  "description": "Production-ready Next.js monorepo powered by Turborepo.",
+  "description": "Production-ready Next.js monorepo template powered by Turborepo.",
   "private": true,
-  "homepage": "https://github.com/your-org/frontend-monorepo#readme",
+  "homepage": "https://github.com/pixielity-inc/frontend-monorepo#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/frontend-monorepo.git"
+    "url": "git+https://github.com/pixielity-inc/frontend-monorepo.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/frontend-monorepo/issues"
+    "url": "https://github.com/pixielity-inc/frontend-monorepo/issues"
   },
   "license": "MIT",
   "author": {

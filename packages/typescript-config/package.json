@@ -1,12 +1,12 @@
 {
-  "name": "@repo/typescript-config",
+  "name": "@pixielity/typescript-config",
   "version": "0.1.0",
   "description": "Shared TypeScript configuration for the frontend-monorepo.",
   "private": true,
-  "homepage": "https://github.com/your-org/frontend-monorepo/tree/main/packages/typescript-config",
+  "homepage": "https://github.com/pixielity-inc/frontend-monorepo/tree/main/packages/typescript-config",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/frontend-monorepo.git",
+    "url": "git+https://github.com/pixielity-inc/frontend-monorepo.git",
     "directory": "packages/typescript-config"
   },
   "license": "MIT",

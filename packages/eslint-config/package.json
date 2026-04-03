@@ -1,13 +1,13 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@pixielity/eslint-config",
   "version": "0.1.0",
   "description": "Shared ESLint configuration for the frontend-monorepo.",
   "private": true,
   "type": "module",
-  "homepage": "https://github.com/your-org/frontend-monorepo/tree/main/packages/eslint-config",
+  "homepage": "https://github.com/pixielity-inc/frontend-monorepo/tree/main/packages/eslint-config",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/frontend-monorepo.git",
+    "url": "git+https://github.com/pixielity-inc/frontend-monorepo.git",
     "directory": "packages/eslint-config"
   },
   "license": "MIT",

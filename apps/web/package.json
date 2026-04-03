@@ -1,13 +1,13 @@
 {
-  "name": "@repo/web",
+  "name": "@pixielity/web",
   "version": "0.1.0",
   "description": "Main web application.",
   "private": true,
   "type": "module",
-  "homepage": "https://github.com/your-org/frontend-monorepo/tree/main/apps/web",
+  "homepage": "https://github.com/pixielity-inc/frontend-monorepo/tree/main/apps/web",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/frontend-monorepo.git",
+    "url": "git+https://github.com/pixielity-inc/frontend-monorepo.git",
     "directory": "apps/web"
   },
   "license": "MIT",
@@ -22,14 +22,14 @@
     "analyze":     "ANALYZE=true next build"
   },
   "dependencies": {
-    "@repo/ui": "*",
+    "@pixielity/react-ui": "*",
     "next": "16.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@pixielity/eslint-config": "*",
+    "@pixielity/typescript-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
