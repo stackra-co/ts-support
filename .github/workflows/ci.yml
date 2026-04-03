@@ -1,0 +1,59 @@
+# .github/workflows/ci.yml — frontend-monorepo
+#
+# Continuous Integration — runs on every PR and push to main/develop.
+#
+# Pipeline:
+#   1. Install dependencies (npm ci with cache)
+#   2. Lint       — ESLint across all workspaces via turbo
+#   3. Type-check — TypeScript across all workspaces via turbo
+#   4. Build      — ensure everything compiles via turbo
+#
+# Turbo's remote cache is optional but recommended for faster CI.
+# Set TURBO_TOKEN and TURBO_TEAM secrets to enable it.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint · Type-check · Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run check-types
+
+      - name: Build
+        run: npm run build
+        env:
+          # Pass Turbo remote cache credentials if configured.
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}

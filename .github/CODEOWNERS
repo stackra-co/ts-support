@@ -1,0 +1,37 @@
+# CODEOWNERS — frontend-monorepo
+#
+# Defines who is automatically requested for review when a PR touches
+# specific files or directories.
+#
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ---------------------------------------------------------------------------
+# Default — all files require review from the core team
+# ---------------------------------------------------------------------------
+* @your-org/core-team
+
+# ---------------------------------------------------------------------------
+# CI / tooling
+# ---------------------------------------------------------------------------
+.github/                    @your-org/platform
+.githooks/                  @your-org/platform
+turbo.json                  @your-org/platform
+package.json                @your-org/platform
+
+# ---------------------------------------------------------------------------
+# Applications
+# ---------------------------------------------------------------------------
+apps/web/                   @your-org/frontend-team
+apps/docs/                  @your-org/frontend-team
+
+# ---------------------------------------------------------------------------
+# Shared packages
+# ---------------------------------------------------------------------------
+packages/ui/                @your-org/design-system-team
+packages/eslint-config/     @your-org/platform
+packages/typescript-config/ @your-org/platform
+
+# ---------------------------------------------------------------------------
+# Documentation
+# ---------------------------------------------------------------------------
+*.md                        @your-org/core-team
