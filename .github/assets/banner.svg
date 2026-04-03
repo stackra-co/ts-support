@@ -1,106 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0D1117"/>
-      <stop offset="100%" stop-color="#0A0F1A"/>
-    </linearGradient>
-    <linearGradient id="topLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#61DAFB" stop-opacity="0"/>
-      <stop offset="30%" stop-color="#61DAFB"/>
-      <stop offset="70%" stop-color="#3B82F6"/>
-      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="divLine" x1="0" y1="0" x2="0" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#61DAFB" stop-opacity="0"/>
-      <stop offset="40%" stop-color="#61DAFB" stop-opacity="0.3"/>
-      <stop offset="60%" stop-color="#61DAFB" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#61DAFB" stop-opacity="0"/>
-    </linearGradient>
-    <clipPath id="clip"><rect width="1200" height="360" rx="14"/></clipPath>
-  </defs>
+<svg width="100%" viewBox="0 0 1200 370" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <pattern id="dots2" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="#1a0d00"/>
+  </pattern>
+  <linearGradient id="divider2" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ea580c" stop-opacity="0"/>
+    <stop offset="40%" stop-color="#ea580c" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#ea580c" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#ea580c" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="accent2" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#f97316"/>
+    <stop offset="100%" stop-color="#fbbf24"/>
+  </linearGradient>
+</defs>
 
-  <g clip-path="url(#clip)">
-    <rect width="1200" height="360" fill="url(#bg)"/>
-    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
-      <circle cx="16" cy="16" r="0.8" fill="#21262D"/>
-    </pattern>
-    <rect width="1200" height="360" fill="url(#dots)"/>
-    <rect x="0" y="0" width="1200" height="2.5" fill="url(#topLine)"/>
+<!-- Background -->
+<rect width="1200" height="360" fill="#0a0500" style="fill:rgb(10, 5, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<rect width="1200" height="360" fill="url(#dots2)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
 
-    <!-- ═══════════════ LEFT PANEL ═══════════════ -->
+<!-- Top accent bar -->
+<rect width="1200" height="3" fill="url(#accent2)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
 
-    <!-- React logo — official atom orbits -->
-    <g transform="translate(56, 108)">
-      <!-- nucleus -->
-      <circle cx="64" cy="64" r="10" fill="#61DAFB"/>
-      <!-- orbit 1 (horizontal) -->
-      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"/>
-      <!-- orbit 2 (rotated 60°) -->
-      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"
-               transform="rotate(60 64 64)"/>
-      <!-- orbit 3 (rotated 120°) -->
-      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"
-               transform="rotate(120 64 64)"/>
-    </g>
+<!-- React atom logo ~72px centered at 88,140 -->
+<g transform="translate(88,140)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <!-- nucleus -->
+  <circle cx="0" cy="0" r="9" fill="#f97316" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- orbit 1: horizontal -->
+  <ellipse cx="0" cy="0" rx="44" ry="14" fill="none" stroke="#f97316" stroke-width="2.5" opacity="0.9" style="fill:none;stroke:rgb(249, 115, 22);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.9;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- orbit 2: rotated 60 -->
+  <ellipse cx="0" cy="0" rx="44" ry="14" fill="none" stroke="#f97316" stroke-width="2.5" opacity="0.9" transform="rotate(60)" style="fill:none;stroke:rgb(249, 115, 22);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.9;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- orbit 3: rotated 120 -->
+  <ellipse cx="0" cy="0" rx="44" ry="14" fill="none" stroke="#f97316" stroke-width="2.5" opacity="0.9" transform="rotate(120)" style="fill:none;stroke:rgb(249, 115, 22);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.9;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</g>
 
-    <!-- Title -->
-    <text x="196" y="152"
-      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
-      font-size="44" font-weight="700" fill="#E6EDF3" letter-spacing="-0.5">Frontend Monorepo</text>
+<!-- Title -->
+<text x="158" y="112" font-family="system-ui,-apple-system,sans-serif" font-size="44" font-weight="700" fill="#fff7ed" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:44px;font-weight:700;text-anchor:start;dominant-baseline:auto">Frontend Monorepo</text>
 
-    <!-- Subtitle -->
-    <text x="196" y="190"
-      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
-      font-size="15.5" fill="#8B949E">Production-ready Next.js monorepo template</text>
-    <text x="196" y="212"
-      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
-      font-size="15.5" fill="#8B949E">Turborepo · TypeScript · HeroUI · Tailwind 4</text>
+<!-- Subtitles -->
+<text x="158" y="141" font-family="system-ui,-apple-system,sans-serif" font-size="15" fill="#9a3412" style="fill:rgb(154, 52, 18);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:15px;font-weight:400;text-anchor:start;dominant-baseline:auto">Production-ready Next.js monorepo template</text>
+<text x="158" y="162" font-family="system-ui,-apple-system,sans-serif" font-size="15" fill="#9a3412" style="fill:rgb(154, 52, 18);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:15px;font-weight:400;text-anchor:start;dominant-baseline:auto">Turborepo · TypeScript · HeroUI · Tailwind 4</text>
 
-    <!-- Badge row 1 -->
-    <g transform="translate(196, 232)">
-      <rect x="0"   y="0" width="90" height="26" rx="5" fill="#61DAFB" fill-opacity="0.1" stroke="#61DAFB" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="45"  y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#61DAFB" text-anchor="middle">Next.js 16</text>
+<!-- Badge row 1 -->
+<g transform="translate(158, 180)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="90" height="26" rx="5" fill="#f97316" fill-opacity="0.15" stroke="#f97316" stroke-opacity="0.6" stroke-width="1" style="fill:rgb(249, 115, 22);stroke:rgb(249, 115, 22);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="45" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fb923c" style="fill:rgb(251, 146, 60);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Next.js 16</text>
 
-      <rect x="100" y="0" width="104" height="26" rx="5" fill="#3178C6" fill-opacity="0.1" stroke="#3178C6" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="152" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#60A5FA" text-anchor="middle">TypeScript 5.9</text>
+  <rect x="98" y="0" width="118" height="26" rx="5" fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-opacity="0.6" stroke-width="1" style="fill:rgb(234, 88, 12);stroke:rgb(234, 88, 12);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="157" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fb923c" style="fill:rgb(251, 146, 60);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">TypeScript 5.9</text>
 
-      <rect x="214" y="0" width="90" height="26" rx="5" fill="#EF4444" fill-opacity="0.1" stroke="#EF4444" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="259" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#FCA5A5" text-anchor="middle">Turborepo</text>
-    </g>
+  <rect x="224" y="0" width="90" height="26" rx="5" fill="#c2410c" fill-opacity="0.15" stroke="#c2410c" stroke-opacity="0.6" stroke-width="1" style="fill:rgb(194, 65, 12);stroke:rgb(194, 65, 12);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="269" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fdba74" style="fill:rgb(253, 186, 116);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Turborepo</text>
+</g>
 
-    <!-- Badge row 2 -->
-    <g transform="translate(196, 268)">
-      <rect x="0"   y="0" width="80" height="26" rx="5" fill="#8B5CF6" fill-opacity="0.1" stroke="#8B5CF6" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="40"  y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#C4B5FD" text-anchor="middle">HeroUI</text>
+<!-- Badge row 2 -->
+<g transform="translate(158, 214)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="72" height="26" rx="5" fill="#b45309" fill-opacity="0.15" stroke="#b45309" stroke-opacity="0.6" stroke-width="1" style="fill:rgb(180, 83, 9);stroke:rgb(180, 83, 9);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="36" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fcd34d" style="fill:rgb(252, 211, 77);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">HeroUI</text>
 
-      <rect x="90"  y="0" width="96" height="26" rx="5" fill="#38BDF8" fill-opacity="0.1" stroke="#38BDF8" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="138" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#7DD3FC" text-anchor="middle">Tailwind 4</text>
+  <rect x="80" y="0" width="90" height="26" rx="5" fill="#92400e" fill-opacity="0.15" stroke="#92400e" stroke-opacity="0.6" stroke-width="1" style="fill:rgb(146, 64, 14);stroke:rgb(146, 64, 14);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="125" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fcd34d" style="fill:rgb(252, 211, 77);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">Tailwind 4</text>
 
-      <rect x="196" y="0" width="80" height="26" rx="5" fill="#F59E0B" fill-opacity="0.1" stroke="#F59E0B" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="236" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#FCD34D" text-anchor="middle">ESLint 9</text>
-    </g>
+  <rect x="178" y="0" width="80" height="26" rx="5" fill="#78350f" fill-opacity="0.2" stroke="#78350f" stroke-opacity="0.7" stroke-width="1" style="fill:rgb(120, 53, 15);stroke:rgb(120, 53, 15);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="218" y="17.5" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11.5" font-weight="600" fill="#fde68a" style="fill:rgb(253, 230, 138);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:auto">ESLint 9</text>
+</g>
 
-    <!-- divider -->
-    <rect x="640" y="0" width="1" height="360" fill="url(#divLine)"/>
+<!-- Divider -->
+<line x1="640" y1="20" x2="640" y2="320" stroke="url(#divider2)" stroke-width="1" style="fill:rgb(0, 0, 0);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
 
-    <!-- ═══════════════ RIGHT PANEL ═══════════════ -->
-    <text x="672" y="72"
-      font-family="system-ui,sans-serif" font-size="10.5" font-weight="700"
-      fill="#484F58" letter-spacing="2.5">FEATURES</text>
+<!-- FEATURES label -->
+<text x="672" y="68" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" fill="#7c2d12" letter-spacing="2" style="fill:rgb(124, 45, 18);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:11px;font-weight:600;text-anchor:start;dominant-baseline:auto">FEATURES</text>
 
-    <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
-       font-size="14" fill="#C9D1D9">
-      <text x="672" y="108"><tspan fill="#61DAFB">›</tspan><tspan dx="10">apps/web + apps/docs (Next.js 16)</tspan></text>
-      <text x="672" y="144"><tspan fill="#61DAFB">›</tspan><tspan dx="10">@pixielity/react-ui shared component lib</tspan></text>
-      <text x="672" y="180"><tspan fill="#61DAFB">›</tspan><tspan dx="10">Shared ESLint 9 flat config + tsconfig</tspan></text>
-      <text x="672" y="216"><tspan fill="#61DAFB">›</tspan><tspan dx="10">GitHub Actions — CI, release, security</tspan></text>
-      <text x="672" y="252"><tspan fill="#61DAFB">›</tspan><tspan dx="10">Kiro MCP — Next.js devtools + HeroUI React</tspan></text>
-      <text x="672" y="288"><tspan fill="#61DAFB">›</tspan><tspan dx="10">npm-check-updates · pnpm-workspace.yaml</tspan></text>
-    </g>
+<!-- Feature lines -->
+<g font-family="system-ui,-apple-system,sans-serif" font-size="14" fill="#fff7ed" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <text x="672" y="98" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>apps/web + apps/docs (Next.js 16)</text>
+  <text x="672" y="126" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>@pixielity/react-ui shared component lib</text>
+  <text x="672" y="154" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>Shared ESLint 9 flat config + tsconfig</text>
+  <text x="672" y="182" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>GitHub Actions — CI, release, security</text>
+  <text x="672" y="210" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>Kiro MCP — Next.js devtools + HeroUI React</text>
+  <text x="672" y="238" style="fill:rgb(255, 247, 237);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:400;text-anchor:start;dominant-baseline:auto"><tspan fill="#f97316" font-weight="700" style="fill:rgb(249, 115, 22);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;text-anchor:start;dominant-baseline:auto">› </tspan>npm-check-updates · pnpm-workspace.yaml</text>
+</g>
 
-    <!-- bottom bar -->
-    <rect x="0" y="328" width="1200" height="32" fill="#010409" fill-opacity="0.7"/>
-    <text x="56" y="349" font-family="system-ui,sans-serif" font-size="11.5" fill="#484F58">github.com/pixielity-inc/frontend-monorepo</text>
-    <text x="1144" y="349" font-family="system-ui,sans-serif" font-size="11.5" fill="#484F58" text-anchor="end">MIT License</text>
-  </g>
+<!-- Bottom bar -->
+<rect y="318" width="1200" height="42" fill="#050200" style="fill:rgb(5, 2, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<text x="32" y="344" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="#7c2d12" style="fill:rgb(124, 45, 18);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:13px;font-weight:400;text-anchor:start;dominant-baseline:auto">github.com/pixielity-inc/frontend-monorepo</text>
+<text x="1168" y="344" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="#7c2d12" style="fill:rgb(124, 45, 18);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, -apple-system, sans-serif;font-size:13px;font-weight:400;text-anchor:end;dominant-baseline:auto">MIT License</text>
 </svg>
