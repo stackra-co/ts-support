@@ -24,21 +24,21 @@ ok()    { echo -e "${GREEN}✔ $*${NC}"; }
 fail()  { echo -e "${RED}✖ $*${NC}"; exit 1; }
 
 command -v node >/dev/null 2>&1 || fail "node not found. Install Node.js >= 18."
-command -v npm  >/dev/null 2>&1 || fail "npm not found."
+command -v pnpm >/dev/null 2>&1 || fail "pnpm not found. Install: npm i -g pnpm"
 
 # ── 1. Lint ───────────────────────────────────────────────────────────────────
 step "Running lint across all workspaces..."
-npm run lint 2>&1 || fail "Lint failed. Fix errors before pushing."
+pnpm run lint 2>&1 || fail "Lint failed. Fix errors before pushing."
 ok "Lint passed."
 
 # ── 2. Type-check ─────────────────────────────────────────────────────────────
 step "Running type-check across all workspaces..."
-npm run check-types 2>&1 || fail "Type errors found. Fix them before pushing."
+pnpm run check-types 2>&1 || fail "Type errors found. Fix them before pushing."
 ok "Type-check passed."
 
 # ── 3. Build ──────────────────────────────────────────────────────────────────
 step "Building all workspaces..."
-npm run build 2>&1 || fail "Build failed. Fix errors before pushing."
+pnpm run build 2>&1 || fail "Build failed. Fix errors before pushing."
 ok "Build passed."
 
 # ── Done ──────────────────────────────────────────────────────────────────────

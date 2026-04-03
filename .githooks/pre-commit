@@ -26,7 +26,7 @@ ok()    { echo -e "${GREEN}✔ $*${NC}"; }
 fail()  { echo -e "${RED}✖ $*${NC}"; exit 1; }
 
 command -v node >/dev/null 2>&1 || fail "node not found. Install Node.js >= 18."
-command -v npm  >/dev/null 2>&1 || fail "npm not found."
+command -v pnpm >/dev/null 2>&1 || fail "pnpm not found. Install: npm i -g pnpm"
 
 # ── Collect staged files ──────────────────────────────────────────────────────
 STAGED_JS=$(git diff --cached --name-only --diff-filter=ACMR \
@@ -45,7 +45,7 @@ FILES=$(echo "$STAGED_JS" | tr '\n' ' ')
 
 # --check exits non-zero if any file would be reformatted.
 npx prettier --check $FILES 2>&1 || \
-  fail "Formatting issues found.\nRun: npm run format\nThen re-stage the files."
+  fail "Formatting issues found.\nRun: pnpm run format\nThen re-stage the files."
 
 ok "Format check passed."
 
