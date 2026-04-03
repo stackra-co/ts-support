@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#0A0F1A"/>
+    </linearGradient>
+    <linearGradient id="topLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#61DAFB" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#61DAFB"/>
+      <stop offset="70%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="divLine" x1="0" y1="0" x2="0" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#61DAFB" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#61DAFB" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#61DAFB" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#61DAFB" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="clip"><rect width="1200" height="360" rx="14"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#clip)">
+    <rect width="1200" height="360" fill="url(#bg)"/>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="0.8" fill="#21262D"/>
+    </pattern>
+    <rect width="1200" height="360" fill="url(#dots)"/>
+    <rect x="0" y="0" width="1200" height="2.5" fill="url(#topLine)"/>
+
+    <!-- ═══════════════ LEFT PANEL ═══════════════ -->
+
+    <!-- React logo — official atom orbits -->
+    <g transform="translate(56, 108)">
+      <!-- nucleus -->
+      <circle cx="64" cy="64" r="10" fill="#61DAFB"/>
+      <!-- orbit 1 (horizontal) -->
+      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"/>
+      <!-- orbit 2 (rotated 60°) -->
+      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"
+               transform="rotate(60 64 64)"/>
+      <!-- orbit 3 (rotated 120°) -->
+      <ellipse cx="64" cy="64" rx="64" ry="22" fill="none" stroke="#61DAFB" stroke-width="3" opacity="0.85"
+               transform="rotate(120 64 64)"/>
+    </g>
+
+    <!-- Title -->
+    <text x="196" y="152"
+      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
+      font-size="44" font-weight="700" fill="#E6EDF3" letter-spacing="-0.5">Frontend Monorepo</text>
+
+    <!-- Subtitle -->
+    <text x="196" y="190"
+      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
+      font-size="15.5" fill="#8B949E">Production-ready Next.js monorepo template</text>
+    <text x="196" y="212"
+      font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
+      font-size="15.5" fill="#8B949E">Turborepo · TypeScript · HeroUI · Tailwind 4</text>
+
+    <!-- Badge row 1 -->
+    <g transform="translate(196, 232)">
+      <rect x="0"   y="0" width="90" height="26" rx="5" fill="#61DAFB" fill-opacity="0.1" stroke="#61DAFB" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="45"  y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#61DAFB" text-anchor="middle">Next.js 16</text>
+
+      <rect x="100" y="0" width="104" height="26" rx="5" fill="#3178C6" fill-opacity="0.1" stroke="#3178C6" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="152" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#60A5FA" text-anchor="middle">TypeScript 5.9</text>
+
+      <rect x="214" y="0" width="90" height="26" rx="5" fill="#EF4444" fill-opacity="0.1" stroke="#EF4444" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="259" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#FCA5A5" text-anchor="middle">Turborepo</text>
+    </g>
+
+    <!-- Badge row 2 -->
+    <g transform="translate(196, 268)">
+      <rect x="0"   y="0" width="80" height="26" rx="5" fill="#8B5CF6" fill-opacity="0.1" stroke="#8B5CF6" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="40"  y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#C4B5FD" text-anchor="middle">HeroUI</text>
+
+      <rect x="90"  y="0" width="96" height="26" rx="5" fill="#38BDF8" fill-opacity="0.1" stroke="#38BDF8" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="138" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#7DD3FC" text-anchor="middle">Tailwind 4</text>
+
+      <rect x="196" y="0" width="80" height="26" rx="5" fill="#F59E0B" fill-opacity="0.1" stroke="#F59E0B" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="236" y="17.5" font-family="system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#FCD34D" text-anchor="middle">ESLint 9</text>
+    </g>
+
+    <!-- divider -->
+    <rect x="640" y="0" width="1" height="360" fill="url(#divLine)"/>
+
+    <!-- ═══════════════ RIGHT PANEL ═══════════════ -->
+    <text x="672" y="72"
+      font-family="system-ui,sans-serif" font-size="10.5" font-weight="700"
+      fill="#484F58" letter-spacing="2.5">FEATURES</text>
+
+    <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif"
+       font-size="14" fill="#C9D1D9">
+      <text x="672" y="108"><tspan fill="#61DAFB">›</tspan><tspan dx="10">apps/web + apps/docs (Next.js 16)</tspan></text>
+      <text x="672" y="144"><tspan fill="#61DAFB">›</tspan><tspan dx="10">@pixielity/react-ui shared component lib</tspan></text>
+      <text x="672" y="180"><tspan fill="#61DAFB">›</tspan><tspan dx="10">Shared ESLint 9 flat config + tsconfig</tspan></text>
+      <text x="672" y="216"><tspan fill="#61DAFB">›</tspan><tspan dx="10">GitHub Actions — CI, release, security</tspan></text>
+      <text x="672" y="252"><tspan fill="#61DAFB">›</tspan><tspan dx="10">Kiro MCP — Next.js devtools + HeroUI React</tspan></text>
+      <text x="672" y="288"><tspan fill="#61DAFB">›</tspan><tspan dx="10">npm-check-updates · pnpm-workspace.yaml</tspan></text>
+    </g>
+
+    <!-- bottom bar -->
+    <rect x="0" y="328" width="1200" height="32" fill="#010409" fill-opacity="0.7"/>
+    <text x="56" y="349" font-family="system-ui,sans-serif" font-size="11.5" fill="#484F58">github.com/pixielity-inc/frontend-monorepo</text>
+    <text x="1144" y="349" font-family="system-ui,sans-serif" font-size="11.5" fill="#484F58" text-anchor="end">MIT License</text>
+  </g>
+</svg>

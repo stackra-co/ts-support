@@ -1,159 +1,200 @@
-# Turborepo starter
+<div align="center">
+  <img src=".github/assets/banner.svg" alt="Frontend Monorepo" width="100%"/>
+</div>
 
-This Turborepo starter is maintained by the Turborepo core team.
+<div align="center">
 
-## Using this example
+[![CI](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/ci.yml/badge.svg)](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/ci.yml)
+[![Security](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/security.yml/badge.svg)](https://github.com/pixielity-inc/frontend-monorepo/actions/workflows/security.yml)
+[![Node](https://img.shields.io/badge/Node-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Run the following command:
+**A production-ready Next.js monorepo template powered by [Turborepo](https://turborepo.dev).**
+Batteries included: HeroUI, Tailwind 4, shared ESLint/tsconfig, CI/CD, git hooks, and MCP.
 
-```sh
-npx create-turbo@latest
+[Quick Start](#quick-start) · [Structure](#structure) · [Commands](#commands) · [Packages](#packages) · [CI/CD](#cicd) · [Contributing](CONTRIBUTING.md)
+
+</div>
+
+---
+
+## Structure
+
+```
+frontend-monorepo/
+├── apps/
+│   ├── web/                   # @pixielity/web — Next.js 16 (port 3000)
+│   └── docs/                  # @pixielity/docs — Next.js 16 (port 3001)
+├── packages/
+│   ├── react-ui/              # @pixielity/react-ui — shared React component library
+│   ├── eslint-config/         # @pixielity/eslint-config — ESLint 9 flat config
+│   └── typescript-config/     # @pixielity/typescript-config — shared tsconfigs
+├── .github/
+│   ├── assets/banner.svg
+│   ├── workflows/
+│   │   ├── ci.yml             # Lint · type-check · build on Node 18/20/22
+│   │   ├── release.yml        # GitHub Release + npm publish on version tags
+│   │   └── security.yml       # Weekly npm audit + CodeQL
+│   ├── CODEOWNERS
+│   └── dependabot.yml
+├── .githooks/                 # pre-commit · commit-msg · pre-push
+├── .kiro/settings/mcp.json    # Next.js devtools · HeroUI React · Tailwind · GitHub
+├── turbo.json                 # Turborepo pipeline
+├── package.json               # npm workspaces root
+├── pnpm-workspace.yaml        # pnpm workspace declaration
+└── prettier.config.js         # Shared Prettier config
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## Quick start
 
-### Apps and Packages
+```bash
+# 1. Clone
+git clone https://github.com/pixielity-inc/frontend-monorepo.git
+cd frontend-monorepo
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+# 2. Install (also registers git hooks via `prepare`)
+npm install
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+# 3. Start all apps in dev mode
+npm run dev
+# web  → http://localhost:3000
+# docs → http://localhost:3001
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+## Commands
+
+### Root
+
+| Command | Description |
+|---|---|
+| `npm run build` | Build all workspaces in dependency order |
+| `npm run dev` | Start all apps in watch/dev mode |
+| `npm run start` | Start all apps in production mode |
+| `npm run lint` | ESLint across all workspaces |
+| `npm run lint:fix` | ESLint auto-fix across all workspaces |
+| `npm run check-types` | TypeScript type-check across all workspaces |
+| `npm run test` | Run all test suites |
+| `npm run format` | Prettier format all files |
+| `npm run format:check` | Prettier check (no write) |
+| `npm run clean` | Remove build artefacts |
+| `npm run clean:all` | Remove build artefacts + node_modules |
+| `npm run upgrade` | `ncu -u && npm install` |
+
+Filter to a single workspace:
+
+```bash
+npm run build -- --filter=@pixielity/web
+npm run test  -- --filter=@pixielity/react-ui
+npm run dev   -- --filter=@pixielity/docs
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Packages
 
-```sh
-turbo build --filter=docs
+### `@pixielity/react-ui`
+
+Shared React component library consumed by all apps.
+
+```tsx
+import { Button } from "@pixielity/react-ui/button";
 ```
 
-Without global `turbo`:
+### `@pixielity/eslint-config`
 
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+Three ESLint 9 flat configs:
+
+```js
+// eslint.config.js in an app
+import { nextJs } from "@pixielity/eslint-config/next-js";
+export default [...nextJs];
 ```
 
-### Develop
+Exports: `./base`, `./next-js`, `./react-internal`
 
-To develop all apps and packages, run the following command:
+### `@pixielity/typescript-config`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Shared tsconfigs:
 
-```sh
-cd my-turborepo
-turbo dev
+```json
+{ "extends": "@pixielity/typescript-config/nextjs" }
 ```
 
-Without global `turbo`, use your package manager:
+Exports: `./base`, `./nextjs`, `./react-library`
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+---
+
+## Adding a new app
+
+```bash
+# 1. Create the app
+npx create-next-app apps/my-app --typescript --tailwind --app
+
+# 2. Update apps/my-app/package.json:
+#    "name": "@pixielity/my-app"
+
+# 3. Add shared deps
+npm install
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Adding a new package
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
+```bash
+mkdir -p packages/my-package/src
+# Add package.json with "name": "@pixielity/my-package"
+npm install
 ```
 
-Without global `turbo`:
+## Publishing a package to npm
 
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+Remove `"private": true` from the package's `package.json`, then:
+
+```bash
+git tag my-package-v1.0.0 && git push --tags
+# release.yml publishes to npm automatically
 ```
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## CI/CD
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+| Workflow | Trigger | What it does |
+|---|---|---|
+| `ci.yml` | PR + push to `main/develop` | Node 18/20/22 matrix · lint · type-check · build |
+| `release.yml` | Tag `v*` or `<pkg>-v*` | GitHub Release + npm publish |
+| `security.yml` | Weekly + push to `main` | npm audit · CodeQL (JS/TS) |
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### Required secrets
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+| Secret | Workflow | Description |
+|---|---|---|
+| `CODECOV_TOKEN` | ci.yml | [codecov.io](https://codecov.io) token |
+| `NPM_TOKEN` | release.yml | npm publish token |
+| `TURBO_TOKEN` | ci.yml | Turborepo remote cache token (optional) |
+| `TURBO_TEAM` | ci.yml | Turborepo team slug (optional) |
 
-```sh
-cd my-turborepo
-turbo login
-```
+---
 
-Without global `turbo`, use your package manager:
+## MCP servers (Kiro)
 
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
+Configured in `.kiro/settings/mcp.json`:
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+| Server | Package | Purpose |
+|---|---|---|
+| `next-devtools` | `next-devtools-mcp` | Live build errors, routes, Server Actions |
+| `heroui-react` | `@heroui/react-mcp` | HeroUI v3 component docs |
+| `tailwindcss` | `mcp-remote` → gitmcp.io | Live Tailwind CSS docs |
+| `github` | `@modelcontextprotocol/server-github` | Repo operations |
+| `playwright` | `@playwright/mcp` | Browser testing |
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## License
 
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+MIT © [Pixielity](https://github.com/pixielity-inc)
