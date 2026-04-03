@@ -1,10 +1,6 @@
 # .github/workflows/security.yml — frontend-monorepo
 #
 # Security scanning — weekly + on every push to main.
-#
-# Checks:
-#   1. npm audit  — known vulnerabilities in JS dependencies
-#   2. CodeQL     — static analysis for JavaScript/TypeScript
 
 name: Security
 
@@ -16,16 +12,24 @@ on:
 
 jobs:
   audit:
-    name: npm audit
+    name: pnpm audit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm audit --audit-level=high
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm audit --audit-level=high
         continue-on-error: true
 
   codeql:

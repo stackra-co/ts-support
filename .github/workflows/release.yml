@@ -3,11 +3,8 @@
 # Creates a GitHub Release when a version tag v* is pushed.
 # Publishes any public packages in packages/ to npm.
 #
-# Tag format: v<semver>  (e.g. v1.0.0)
-# Per-package tag: <package>-v<semver>  (e.g. ui-v1.2.0)
-#
 # Required secrets:
-#   NPM_TOKEN — from https://www.npmjs.com (for publishing packages)
+#   NPM_TOKEN — from https://www.npmjs.com
 
 name: Release
 
@@ -30,19 +27,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-          # Point npm to the registry for publishing.
+          cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build all packages
-        run: npm run build
+        run: pnpm run build
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -53,8 +54,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Publish public packages to npm.
-      # Only runs if NPM_TOKEN secret is set.
       - name: Publish to npm
         if: ${{ secrets.NPM_TOKEN != '' }}
         run: |
@@ -62,7 +61,7 @@ jobs:
             PRIVATE=$(node -e "const p=require('./$dir/package.json'); console.log(p.private || false)")
             if [ "$PRIVATE" = "false" ]; then
               echo "Publishing $dir"
-              npm publish "./$dir" --access public
+              pnpm publish "./$dir" --access public --no-git-checks
             fi
           done
         env:
