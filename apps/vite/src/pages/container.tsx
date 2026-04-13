@@ -1,22 +1,21 @@
 /**
  * @file pages/container.tsx
- * @description DI Container package showcase page.
+ * @description DI Container demo page.
  *
  * Demonstrates @abdokouta/ts-container:
  *   - @Injectable() decorator
- *   - @Module() with providers and imports
+ *   - @Inject() for constructor injection
+ *   - @Module() with providers
  *   - useInject() hook to resolve services
- *   - useModule() hook to inspect the module tree
- *   - Service-to-service dependencies via @Inject()
+ *   - Service-to-service dependencies
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Injectable, Module, Inject } from "@abdokouta/ts-container";
 import { useInject, ContainerProvider } from "@abdokouta/ts-container-react";
-import { Card, Chip, Separator, Button } from "@heroui/react";
+import { ApplicationContext } from "@abdokouta/ts-application";
 
 import { title, subtitle } from "@/components/primitives";
-import DefaultLayout from "@/layouts/default";
 
 // ---------------------------------------------------------------------------
 // Demo services
@@ -53,7 +52,7 @@ class GreeterService {
 class DemoModule {}
 
 // ---------------------------------------------------------------------------
-// Demo sub-components
+// Demo widgets (rendered inside ContainerProvider)
 // ---------------------------------------------------------------------------
 
 function CounterWidget() {
@@ -65,26 +64,24 @@ function CounterWidget() {
       <p className="text-sm text-default-500">CounterService (Singleton)</p>
       <span className="text-5xl font-bold tabular-nums">{display}</span>
       <div className="flex gap-2">
-        <Button
-          size="sm"
-          variant="primary"
-          onPress={() => {
+        <button
+          className="rounded-lg bg-primary px-4 py-2 text-sm text-white"
+          onClick={() => {
             counter.increment();
             setDisplay(counter.getCount());
           }}
         >
           +1
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onPress={() => {
+        </button>
+        <button
+          className="rounded-lg border border-divider px-4 py-2 text-sm"
+          onClick={() => {
             counter.reset();
             setDisplay(0);
           }}
         >
           Reset
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -106,30 +103,14 @@ function GreeterWidget() {
           onKeyDown={(e) => e.key === "Enter" && setGreeting(greeter.greet(name))}
           placeholder="Your name"
         />
-        <Button size="sm" variant="secondary" onPress={() => setGreeting(greeter.greet(name))}>
+        <button
+          className="rounded-lg bg-default-200 px-4 py-2 text-sm"
+          onClick={() => setGreeting(greeter.greet(name))}
+        >
           Greet
-        </Button>
+        </button>
       </div>
       <p className="rounded-lg bg-default-100 px-3 py-2 text-sm font-mono">{greeting}</p>
-    </div>
-  );
-}
-
-function ModuleInspector() {
-  // const mod = useModule(DemoModule);
-  return (
-    <div className="flex flex-col gap-2 rounded-xl border border-divider p-4">
-      <p className="text-sm font-medium">Module: DemoModule</p>
-      <div className="flex flex-wrap gap-2">
-        {["CounterService", "GreeterService"].map((name) => (
-          <Chip key={name} size="sm" color="accent" variant="soft">
-            {name}
-          </Chip>
-        ))}
-      </div>
-      <p className="text-xs text-default-400">
-        Container resolved: {mod ? "✅ yes" : "⏳ pending"}
-      </p>
     </div>
   );
 }
@@ -139,77 +120,72 @@ function ModuleInspector() {
 // ---------------------------------------------------------------------------
 
 export default function ContainerPage() {
+  const [demoApp, setDemoApp] = useState<ApplicationContext | null>(null);
+
+  useEffect(() => {
+    ApplicationContext.create(DemoModule).then(setDemoApp);
+  }, []);
+
   return (
-    <DefaultLayout>
-      <section className="flex flex-col gap-8 py-8 md:py-10">
-        {/* Header */}
-        <div>
-          <h1 className={title()}>Container Package</h1>
-          <p className={subtitle({ class: "mt-2" })}>
-            @abdokouta/ts-container — NestJS-style dependency injection for React
-          </p>
-        </div>
+    <section className="flex flex-col gap-8 py-8 md:py-10">
+      <div>
+        <h1 className={title()}>Container Package</h1>
+        <p className={subtitle({ class: "mt-2" })}>
+          @abdokouta/ts-container — NestJS-style dependency injection
+        </p>
+      </div>
 
-        {/* Concept cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {[
-            {
-              icon: "💉",
-              label: "@Injectable()",
-              desc: "Mark a class as a DI-managed service. The container handles instantiation and lifecycle.",
-            },
-            {
-              icon: "📦",
-              label: "@Module()",
-              desc: "Group providers and imports. Modules are the unit of encapsulation in the DI system.",
-            },
-            {
-              icon: "🪝",
-              label: "useInject()",
-              desc: "React hook to resolve a service from the nearest ContainerProvider in the tree.",
-            },
-          ].map((item) => (
-            <Card key={item.label} className="border border-divider">
-              <Card.Content className="flex flex-col gap-2">
-                <span className="text-3xl">{item.icon}</span>
-                <p className="font-mono text-sm font-semibold text-primary">{item.label}</p>
-                <p className="text-xs text-default-500">{item.desc}</p>
-              </Card.Content>
-            </Card>
-          ))}
-        </div>
+      {/* Concept cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {[
+          {
+            icon: "💉",
+            label: "@Injectable()",
+            desc: "Mark a class as a DI-managed service.",
+          },
+          {
+            icon: "📦",
+            label: "@Module()",
+            desc: "Group providers and imports into modules.",
+          },
+          {
+            icon: "🪝",
+            label: "useInject()",
+            desc: "React hook to resolve a service from DI.",
+          },
+        ].map((item) => (
+          <div key={item.label} className="rounded-xl border border-divider p-4">
+            <span className="text-3xl">{item.icon}</span>
+            <p className="mt-2 font-mono text-sm font-semibold text-primary">{item.label}</p>
+            <p className="mt-1 text-xs text-default-500">{item.desc}</p>
+          </div>
+        ))}
+      </div>
 
-        {/* Live demo */}
-        <Card>
-          <Card.Header className="flex flex-col items-start gap-1">
-            <h2 className="text-lg font-semibold">Live Demo — DemoModule</h2>
-            <p className="text-sm text-default-500">
-              CounterWidget and GreeterWidget share the same CounterService singleton.
-            </p>
-          </Card.Header>
-          <Separator />
-          <Card.Content>
-            <ContainerProvider module={DemoModule}>
-              <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <CounterWidget />
-                  <GreeterWidget />
-                </div>
-                <ModuleInspector />
-              </div>
-            </ContainerProvider>
-          </Card.Content>
-        </Card>
+      {/* Live demo */}
+      <div className="rounded-xl border border-divider p-6">
+        <h2 className="text-lg font-semibold">Live Demo — DemoModule</h2>
+        <p className="mb-4 text-sm text-default-500">
+          CounterWidget and GreeterWidget share the same CounterService singleton.
+        </p>
 
-        {/* Code snippet */}
-        <Card>
-          <Card.Header>
-            <h2 className="text-lg font-semibold">How It Works</h2>
-          </Card.Header>
-          <Separator />
-          <Card.Content>
-            <pre className="overflow-x-auto rounded-lg bg-default-100 p-4 text-xs font-mono text-foreground">
-              {`@Injectable()
+        {demoApp ? (
+          <ContainerProvider context={demoApp}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <CounterWidget />
+              <GreeterWidget />
+            </div>
+          </ContainerProvider>
+        ) : (
+          <p className="text-sm text-default-400">Bootstrapping DemoModule...</p>
+        )}
+      </div>
+
+      {/* Code snippet */}
+      <div className="rounded-xl border border-divider p-6">
+        <h2 className="mb-4 text-lg font-semibold">How It Works</h2>
+        <pre className="overflow-x-auto rounded-lg bg-default-100 p-4 text-xs font-mono">
+          {`@Injectable()
 class CounterService {
   private count = 0;
   increment() { return ++this.count; }
@@ -233,10 +209,8 @@ function MyComponent() {
   const counter = useInject(CounterService);
   return <button onClick={() => counter.increment()}>+1</button>;
 }`}
-            </pre>
-          </Card.Content>
-        </Card>
-      </section>
-    </DefaultLayout>
+        </pre>
+      </div>
+    </section>
   );
 }
