@@ -1,5 +1,5 @@
 /**
- * ESLint Configuration for @abdokouta/ts-support
+ * ESLint Configuration for @abdokouta/ts-events
  *
  * @see https://eslint.org/docs/latest/use/configure/configuration-files
  */

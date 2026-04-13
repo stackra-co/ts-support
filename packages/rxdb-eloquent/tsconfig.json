@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".",
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "ignoreDeprecations": "6.0",
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -14,12 +14,12 @@
     "declarationMap": true,
     "sourceMap": true,
     "jsx": "react-jsx",
-    "types": [],
+    "types": ["vitest/globals"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*", "__tests__/**/*"],
-  "exclude": ["node_modules", "dist", "config", "example"]
+  "exclude": ["node_modules", "dist", "config"]
 }
