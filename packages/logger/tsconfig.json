@@ -42,7 +42,7 @@
 
     /* ── Testing ─────────────────────────────────────────────────────────── */
     /* Include vitest global types (describe, it, expect, vi).               */
-    "types": ["vitest/globals"],
+    "types": ["node", "vitest/globals"],
 
     /* ── Path Aliases ────────────────────────────────────────────────────── */
     /* @ maps to ./src — e.g. '@/services/cache.service' → './src/services'. */

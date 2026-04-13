@@ -12,7 +12,7 @@
 
 import { useState } from "react";
 import { Injectable, Module, Inject } from "@abdokouta/ts-container";
-import { useInject, useModule, ContainerProvider } from "@abdokouta/ts-container-react";
+import { useInject, ContainerProvider } from "@abdokouta/ts-container-react";
 import { Card, Chip, Separator, Button } from "@heroui/react";
 
 import { title, subtitle } from "@/components/primitives";
@@ -116,7 +116,7 @@ function GreeterWidget() {
 }
 
 function ModuleInspector() {
-  const mod = useModule(DemoModule);
+  // const mod = useModule(DemoModule);
   return (
     <div className="flex flex-col gap-2 rounded-xl border border-divider p-4">
       <p className="text-sm font-medium">Module: DemoModule</p>

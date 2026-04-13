@@ -64,7 +64,10 @@ export default defineConfig(({ mode }) => {
          * Keeping this empty uses SWC (faster) via @vitejs/plugin-react.
          */
         babel: {
-          plugins: [],
+          plugins: [
+            ["@babel/plugin-proposal-decorators", { legacy: true }],
+            ["@babel/plugin-transform-class-properties", { loose: true }],
+          ],
         },
       }),
 

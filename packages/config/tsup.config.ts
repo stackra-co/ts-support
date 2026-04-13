@@ -27,7 +27,7 @@ export default defineConfig({
   | All exports must go through src/index.ts.
   |
   */
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/vite-plugin.ts'],
 
   /*
   |--------------------------------------------------------------------------
@@ -118,7 +118,7 @@ export default defineConfig({
   | Includes all peer dependencies and optional dependencies.
   |
   */
-  external: ['@abdokouta/ts-container', 'dotenv', 'vite'],
+  external: ['@abdokouta/ts-container', 'dotenv', 'vite', 'glob'],
 
   /*
   |--------------------------------------------------------------------------

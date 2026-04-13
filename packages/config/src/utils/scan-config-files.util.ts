@@ -2,9 +2,9 @@
  * Scan Config Files Utility
  *
  * Scans and collects all .config.ts files based on the provided options.
+ * Uses dynamic import for glob to avoid bundling it when not used.
  */
 
-import { glob } from 'glob';
 import type { ViteConfigPluginOptions } from '@/interfaces/vite-config-plugin-options.interface';
 
 /**
@@ -20,6 +20,9 @@ export async function scanConfigFiles(options: ViteConfigPluginOptions): Promise
     root = process.cwd(),
   } = options;
 
+  // Dynamic import to avoid bundling glob when not used.
+  const { glob } = await import('glob');
+
   const patterns = Array.isArray(configFilePattern) ? configFilePattern : [configFilePattern];
   const configFiles: string[] = [];
 
@@ -27,7 +30,7 @@ export async function scanConfigFiles(options: ViteConfigPluginOptions): Promise
     const files = await glob(pattern, {
       cwd: root,
       absolute: true,
-      ignore: excludeDirs.map((dir) => `**/${dir}/**`),
+      ignore: excludeDirs.map((dir: string) => `**/${dir}/**`),
     });
     configFiles.push(...files);
   }
