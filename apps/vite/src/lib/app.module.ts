@@ -13,6 +13,7 @@ import "reflect-metadata";
 import { Module } from "@abdokouta/ts-container";
 import { ConfigModule } from "@abdokouta/ts-config";
 import { LoggerModule } from "@abdokouta/ts-logger";
+import { DesktopModule } from "@abdokouta/ts-desktop";
 
 /**
  * AppModule — root module of the Vite application.
@@ -68,6 +69,19 @@ import { LoggerModule } from "@abdokouta/ts-logger";
           transporters: [{ type: "silent" }],
         },
       },
+    }),
+
+    /**
+     * DesktopModule — Electron desktop integration.
+     *
+     * Auto-detects platform (Electron vs browser).
+     * Provides DesktopBridge for printing, notifications, file export.
+     * In browser mode, provides graceful fallbacks.
+     */
+    DesktopModule.forRoot({
+      appName: "Pixielity",
+      titleBarStyle: "native",
+      autoUpdate: false,
     }),
   ],
   providers: [],

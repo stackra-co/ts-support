@@ -1,0 +1,33 @@
+/**
+ * @Menu Decorator
+ *
+ * Marks a class as a menu section (File, Edit, View, etc.).
+ * Methods decorated with @MenuItem() become menu items.
+ * Auto-discovered by DesktopModule from the providers array.
+ *
+ * @example
+ * ```typescript
+ * @Menu('file', { label: 'File', order: 0 })
+ * @Injectable()
+ * class FileMenu {
+ *   @MenuItem({ label: 'New Order', accelerator: 'CmdOrCtrl+N' })
+ *   newOrder() { ... }
+ * }
+ * ```
+ */
+
+import "reflect-metadata";
+import { MENU_METADATA } from "@/constants";
+import type { MenuMetadata } from "@/interfaces";
+
+export function Menu(id: string, options?: { label?: string; order?: number }): ClassDecorator {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  return (target: Function) => {
+    const metadata: MenuMetadata = {
+      id,
+      label: options?.label ?? id.charAt(0).toUpperCase() + id.slice(1),
+      order: options?.order,
+    };
+    Reflect.defineMetadata(MENU_METADATA, metadata, target);
+  };
+}

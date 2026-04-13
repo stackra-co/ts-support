@@ -29,6 +29,7 @@
     "@abdokouta/ts-container-react": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
     "@abdokouta/ts-logger": "workspace:*",
+    "@abdokouta/ts-desktop": "workspace:*",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {

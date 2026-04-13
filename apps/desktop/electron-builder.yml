@@ -1,0 +1,48 @@
+# electron-builder Configuration
+#
+# |--------------------------------------------------------------------------
+# | Pixielity Desktop — Build Configuration
+# |--------------------------------------------------------------------------
+# |
+# | Builds distributable packages for macOS, Windows, and Linux.
+# |
+# | Output:
+# |   dist/Pixielity.dmg          (macOS)
+# |   dist/Pixielity Setup.exe    (Windows)
+# |   dist/Pixielity.AppImage     (Linux)
+# |
+# @see https://www.electron.build/configuration
+
+appId: com.pixielity.desktop
+productName: Pixielity
+copyright: Copyright © 2025 Abdelrhman Kouta
+
+directories:
+  output: release
+  buildResources: resources
+
+files:
+  - dist-electron/**/*
+
+mac:
+  target:
+    - dmg
+    - zip
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  category: public.app-category.business
+
+win:
+  target:
+    - nsis
+  artifactName: ${productName}-Setup-${version}.${ext}
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+
+linux:
+  target:
+    - AppImage
+    - deb
+  artifactName: ${productName}-${version}.${ext}
+  category: Office
