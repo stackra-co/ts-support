@@ -17,7 +17,7 @@
     "sourceMap": true,
     "jsx": "react-jsx",
     /* Testing — vitest/globals only needed in __tests__, not in src */
-    "types": [],
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

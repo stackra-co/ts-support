@@ -1,18 +1,32 @@
 import "reflect-metadata";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { bootstrapApp } from "@abdokouta/ts-application";
+import { ContainerProvider } from "@abdokouta/ts-container-react";
 
-import App from "./App.tsx";
-import { Provider } from "./provider.tsx";
+import { AppModule } from "@/lib/app.module";
+import { Provider } from "./provider";
+import App from "./App";
 import "@/styles/globals.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+/**
+ * Bootstrap the DI container, then render the React app.
+ *
+ * bootstrapApp() creates the ApplicationContext, exposes it on
+ * window.__APP_CONTEXT__ in dev, and returns it ready for ContainerProvider.
+ */
+async function bootstrap() {
+  const app = await bootstrapApp(AppModule);
+
+  ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
-      <Provider>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
-);
+      <ContainerProvider context={app}>
+        <Provider>
+          <App />
+        </Provider>
+      </ContainerProvider>
+    </BrowserRouter>,
+  );
+}
+
+bootstrap().catch(console.error);

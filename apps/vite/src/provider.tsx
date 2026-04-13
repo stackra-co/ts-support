@@ -1,38 +1,23 @@
 /**
  * @file provider.tsx
- * @description Root provider tree for the Vite application.
+ * @description Additional providers (theme, etc.) that wrap the app.
  *
- * Wraps the entire app with:
- *   1. ContainerProvider — bootstraps the DI container (AppModule)
- *   2. HeroUIProvider   — HeroUI theme + dark/light switching
- *
- * All child components can use useInject(), useLogger(), etc.
+ * The DI container (ContainerProvider) is set up in main.tsx.
+ * This file is for any other providers that need to wrap the app.
  */
 
 import * as React from "react";
-import { HeroUIProvider } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
-import { ContainerProvider } from "@abdokouta/ts-container-react";
-
-import { AppModule } from "@/lib/app.module";
 
 export interface ProviderProps {
   children: React.ReactNode;
 }
 
 /**
- * Provider — root provider tree.
+ * Provider — additional provider wrappers.
  *
- * Order matters:
- *   ContainerProvider must wrap everything so DI services are available
- *   to all child components, including theme-aware ones.
+ * Add theme providers, toast providers, etc. here.
+ * The DI container is already available from main.tsx.
  */
 export function Provider({ children }: ProviderProps) {
-  const navigate = useNavigate();
-
-  return (
-    <ContainerProvider module={AppModule}>
-      <HeroUIProvider navigate={navigate}>{children}</HeroUIProvider>
-    </ContainerProvider>
-  );
+  return <>{children}</>;
 }

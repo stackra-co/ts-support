@@ -21,6 +21,7 @@
     "@abdokouta/ts-config": "workspace:*",
     "@abdokouta/ts-container": "workspace:*",
     "@abdokouta/ts-container-react": "workspace:*",
+    "@abdokouta/ts-application": "workspace:*",
     "@abdokouta/ts-desktop": "workspace:*",
     "@abdokouta/ts-logger": "workspace:*",
     "@abdokouta/ts-support": "workspace:*",
@@ -33,8 +34,6 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.29.0",
-    "@babel/plugin-transform-class-properties": "^7.28.6",
     "@eslint/compat": "1.2.8",
     "@eslint/eslintrc": "3.3.1",
     "@eslint/js": "9.25.1",
@@ -45,7 +44,7 @@
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "8.31.1",
     "@typescript-eslint/parser": "8.31.1",
-    "@vitejs/plugin-react": "4.7.0",
+    "@vitejs/plugin-react-swc": "^4.3.0",
     "eslint": "9.25.1",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",

@@ -10,7 +10,7 @@
  */
 
 import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
@@ -54,21 +54,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react({
         /**
-         * Use the automatic JSX runtime (React 17+).
-         * No need to import React in every file.
+         * Enable TypeScript decorators via SWC.
+         * SWC handles experimentalDecorators + emitDecoratorMetadata natively.
+         * No Babel plugins needed.
          */
-        jsxRuntime: "automatic",
-
-        /**
-         * Babel plugins — add only what you need.
-         * Keeping this empty uses SWC (faster) via @vitejs/plugin-react.
-         */
-        babel: {
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { legacy: true }],
-            ["@babel/plugin-transform-class-properties", { loose: true }],
-          ],
-        },
+        tsDecorators: true,
       }),
 
       /**
@@ -263,6 +253,24 @@ export default defineConfig(({ mode }) => {
      * This is the default prefix — change it here if needed.
      */
     envPrefix: "VITE_",
+
+    // -------------------------------------------------------------------------
+    // esbuild
+    // -------------------------------------------------------------------------
+
+    esbuild: {
+      /**
+       * Disable esbuild's TS decorator handling.
+       * SWC (via @vitejs/plugin-react-swc) handles decorators instead.
+       * This prevents the "experimental decorators" conflict.
+       */
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true,
+          emitDecoratorMetadata: true,
+        },
+      },
+    },
 
     // -------------------------------------------------------------------------
     // Optimisation (dependency pre-bundling)
