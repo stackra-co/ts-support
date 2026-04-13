@@ -2,11 +2,11 @@
  * Electron Main Process
  *
  * |--------------------------------------------------------------------------
- * | Entry point for the Electron application.
+ * | Thin shell that wraps the existing Vite app.
  * |--------------------------------------------------------------------------
  * |
- * | Creates the main BrowserWindow, sets up the app menu,
- * | registers IPC handlers, and manages the app lifecycle.
+ * | Dev:  loads http://localhost:5173 (Vite dev server)
+ * | Prod: loads ../vite/dist/index.html (built Vite app)
  * |
  */
 
@@ -14,9 +14,11 @@ import { app, BrowserWindow, shell, ipcMain, Menu, Notification, dialog } from "
 import { join } from "path";
 import { writeFileSync } from "fs";
 
+const isDev = !app.isPackaged;
+
 /*
 |--------------------------------------------------------------------------
-| Window Creation
+| Window
 |--------------------------------------------------------------------------
 */
 
@@ -31,20 +33,22 @@ function createWindow(): void {
     title: "Pixielity",
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
-      sandbox: false,
       contextIsolation: true,
       nodeIntegration: false,
     },
   });
 
-  // Dev: load from Vite dev server. Prod: load built HTML.
-  if (process.env.ELECTRON_RENDERER_URL) {
-    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
+  if (isDev) {
+    // Dev — load from Vite dev server (started by concurrently).
+    mainWindow.loadURL("http://localhost:5173");
+    mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
+    // Prod — load the built Vite app.
+    // The Vite build output is at ../../apps/vite/dist/ relative to this file,
+    // but in the packaged app it's bundled alongside.
+    mainWindow.loadFile(join(__dirname, "../../renderer/index.html"));
   }
 
-  // Open external links in the default browser.
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: "deny" };
@@ -59,14 +63,30 @@ function createWindow(): void {
 |--------------------------------------------------------------------------
 | App Menu
 |--------------------------------------------------------------------------
-|
-| Native menu bar: File, Edit, View, Window, Help.
-| Menu actions send IPC messages to the renderer.
-|
 */
 
 function createMenu(): void {
+  const isMac = process.platform === "darwin";
+
   const template: Electron.MenuItemConstructorOptions[] = [
+    ...(isMac
+      ? [
+          {
+            label: app.name,
+            submenu: [
+              { role: "about" as const },
+              { type: "separator" as const },
+              { role: "services" as const },
+              { type: "separator" as const },
+              { role: "hide" as const },
+              { role: "hideOthers" as const },
+              { role: "unhide" as const },
+              { type: "separator" as const },
+              { role: "quit" as const },
+            ],
+          },
+        ]
+      : []),
     {
       label: "File",
       submenu: [
@@ -87,7 +107,7 @@ function createMenu(): void {
           click: () => mainWindow?.webContents.send("menu:export"),
         },
         { type: "separator" },
-        { role: "quit" },
+        isMac ? { role: "close" } : { role: "quit" },
       ],
     },
     {
@@ -118,7 +138,13 @@ function createMenu(): void {
     },
     {
       label: "Window",
-      submenu: [{ role: "minimize" }, { role: "zoom" }, { type: "separator" }, { role: "close" }],
+      submenu: [
+        { role: "minimize" },
+        { role: "zoom" },
+        ...(isMac
+          ? [{ type: "separator" as const }, { role: "front" as const }]
+          : [{ role: "close" as const }]),
+      ],
     },
     {
       label: "Help",
@@ -128,7 +154,7 @@ function createMenu(): void {
           click: () => shell.openExternal("https://pixielity.com/docs"),
         },
         {
-          label: "About",
+          label: `About Pixielity v${app.getVersion()}`,
           click: () => {
             dialog.showMessageBox({
               type: "info",
@@ -142,21 +168,18 @@ function createMenu(): void {
     },
   ];
 
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 /*
 |--------------------------------------------------------------------------
 | IPC Handlers
 |--------------------------------------------------------------------------
-|
-| Handle requests from the renderer process (via preload bridge).
-|
 */
 
 function registerIpcHandlers(): void {
-  // Print receipt HTML.
+  ipcMain.handle("get-app-version", () => app.getVersion());
+
   ipcMain.handle("print-receipt", async (_event, html: string) => {
     const win = new BrowserWindow({ show: false });
     win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
@@ -165,12 +188,10 @@ function registerIpcHandlers(): void {
     });
   });
 
-  // Open cash drawer (placeholder — implement serial port command).
   ipcMain.handle("open-cash-drawer", async () => {
-    console.log("[Main] Cash drawer open command sent");
+    console.log("[Main] Cash drawer open command");
   });
 
-  // Export file — opens save dialog.
   ipcMain.handle("export-file", async (_event, data: string, filename: string) => {
     const result = await dialog.showSaveDialog(mainWindow!, {
       defaultPath: filename,
@@ -187,13 +208,9 @@ function registerIpcHandlers(): void {
     return null;
   });
 
-  // Show OS notification.
   ipcMain.handle("notify", async (_event, title: string, body: string) => {
     new Notification({ title, body }).show();
   });
-
-  // Get app version.
-  ipcMain.handle("get-app-version", () => app.getVersion());
 }
 
 /*
@@ -208,14 +225,10 @@ app.whenReady().then(() => {
   createWindow();
 
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  if (process.platform !== "darwin") app.quit();
 });
