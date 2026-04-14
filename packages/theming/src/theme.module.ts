@@ -1,109 +1,160 @@
 /**
- * @fileoverview ThemeModule
+ * Theme Module
  *
- * DI module for the `@abdokouta/react-theming` package.
- *
- * @module @abdokouta/react-theming
- *
- * @example Basic setup
- * ```ts
- * @Module({ imports: [ThemeModule.forRoot()] })
- * export class AppModule {}
- * ```
- *
- * @example Register a customizer panel
- * ```ts
+ * |--------------------------------------------------------------------------
+ * | DI Module for @abdokouta/react-theming
+ * |--------------------------------------------------------------------------
+ * |
+ * | Registers:
+ * |   - `THEME_CONFIG`          — raw config object
+ * |   - `ThemeRegistry`         — the global theme registry singleton
+ * |   - `THEME_REGISTRY`        — useValue alias to the same singleton
+ * |   - `CustomizerRegistry`    — the global customizer registry singleton
+ * |   - `CUSTOMIZER_REGISTRY`   — useValue alias to the same singleton
+ * |
+ * | Follows the same pattern as CacheModule, EventsModule, DesktopModule.
+ * |
+ * @example
+ * ```typescript
  * @Module({
  *   imports: [
- *     ThemeModule.forRoot(),
- *     ThemeModule.registerCustomizer({
- *       id: "auth",
- *       title: "Auth",
- *       component: AuthThemeCustomizer,
- *       order: 10,
- *     }),
+ *     ThemeModule.forRoot({ defaultTheme: 'ocean', defaultMode: 'dark' }),
+ *     ThemeModule.forFeature([
+ *       { id: 'custom', label: 'Custom', color: '#ff6600' },
+ *     ]),
  *   ],
  * })
  * export class AppModule {}
  * ```
+ *
+ * @module @abdokouta/react-theming
  */
 
 import "reflect-metadata";
 import { Module, type DynamicModule } from "@abdokouta/ts-container";
+
+import type { ThemeConfig, ThemeModuleOptions } from "@/types/theme.types";
+import { ThemeRegistry, themeRegistry } from "@/registries/theme.registry";
 import {
+  CustomizerRegistry,
   customizerRegistry,
   type CustomizerPanel,
 } from "@/registries/customizer.registry";
-import { themeRegistry } from "@/registries/theme.registry";
-import type { ThemeConfig, ThemeModuleOptions } from "@/types/theme.types";
+import {
+  THEME_CONFIG,
+  THEME_REGISTRY,
+  CUSTOMIZER_REGISTRY,
+} from "@/constants/tokens.constant";
+import { BUILT_IN_THEMES } from "@/constants/themes.constant";
 
-// ─── Built-in themes ──────────────────────────────────────────────────────────
-
-const BUILT_IN_THEMES: ThemeConfig[] = [
-  { id: "default", label: "Default", color: "#6366f1" },
-  { id: "netflix", label: "Netflix", color: "#e50914" },
-  { id: "ocean",   label: "Ocean",   color: "#0ea5e9" },
-  { id: "rose",    label: "Rose",    color: "#f43f5e" },
-  { id: "forest",  label: "Forest",  color: "#22c55e" },
-  { id: "amber",   label: "Amber",   color: "#f59e0b" },
-  { id: "violet",  label: "Violet",  color: "#8b5cf6" },
-];
-
-// ─── ThemeModule ──────────────────────────────────────────────────────────────
 @Module({})
+// biome-ignore lint/complexity/noStaticOnlyClass: Module pattern
 export class ThemeModule {
-  /**
-   * Configure the theming module.
-   * Registers built-in themes + any extra themes from options.
-   */
-  static forRoot(options: ThemeModuleOptions = {}): DynamicModule {
-    // Register built-ins (idempotent — skip if already registered)
+  /*
+  |--------------------------------------------------------------------------
+  | forRoot
+  |--------------------------------------------------------------------------
+  |
+  | Registers the ThemeRegistry and CustomizerRegistry as global DI singletons.
+  | Seeds the ThemeRegistry with built-in themes + any extra themes from config.
+  |
+  */
+  static forRoot(config: ThemeModuleOptions = {}): DynamicModule {
+    /*
+    |--------------------------------------------------------------------------
+    | Register built-in themes (idempotent — skip if already registered).
+    |--------------------------------------------------------------------------
+    */
     for (const theme of BUILT_IN_THEMES) {
       if (!themeRegistry.has(theme.id)) {
         themeRegistry.register(theme.id, theme);
       }
     }
-    // Register any extra themes from options
-    if (options.themes) {
-      for (const theme of options.themes) {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Register extra themes from config.
+    |--------------------------------------------------------------------------
+    */
+    if (config.themes) {
+      for (const theme of config.themes) {
         themeRegistry.register(theme.id, theme);
       }
     }
-    return { module: ThemeModule, providers: [], exports: [] };
+
+    return {
+      module: ThemeModule,
+      global: true,
+      providers: [
+        { provide: THEME_CONFIG, useValue: config },
+        { provide: ThemeRegistry, useValue: themeRegistry },
+        { provide: THEME_REGISTRY, useValue: themeRegistry },
+        { provide: CustomizerRegistry, useValue: customizerRegistry },
+        { provide: CUSTOMIZER_REGISTRY, useValue: customizerRegistry },
+      ],
+      exports: [
+        THEME_CONFIG,
+        ThemeRegistry,
+        THEME_REGISTRY,
+        CustomizerRegistry,
+        CUSTOMIZER_REGISTRY,
+      ],
+    };
   }
 
-  /**
-   * Register a single customizer panel.
-   */
-  static registerCustomizer(panel: CustomizerPanel): DynamicModule {
-    customizerRegistry.register(panel.id, panel);
-    return { module: ThemeModule, providers: [], exports: [] };
-  }
-
-  /**
-   * Register multiple customizer panels at once.
-   */
-  static registerCustomizers(panels: CustomizerPanel[]): DynamicModule {
-    for (const panel of panels) {
-      customizerRegistry.register(panel.id, panel);
+  /*
+  |--------------------------------------------------------------------------
+  | forFeature
+  |--------------------------------------------------------------------------
+  |
+  | Register additional themes from a feature module.
+  | Themes are added to the global ThemeRegistry singleton.
+  |
+  */
+  static forFeature(themes: ThemeConfig[]): DynamicModule {
+    for (const theme of themes) {
+      themeRegistry.register(theme.id, theme);
     }
     return { module: ThemeModule, providers: [], exports: [] };
   }
 
-  /**
-   * Register a custom theme.
-   */
+  /*
+  |--------------------------------------------------------------------------
+  | registerTheme
+  |--------------------------------------------------------------------------
+  |
+  | Register a single custom theme.
+  |
+  */
   static registerTheme(theme: ThemeConfig): DynamicModule {
     themeRegistry.register(theme.id, theme);
     return { module: ThemeModule, providers: [], exports: [] };
   }
 
-  /**
-   * Register multiple custom themes.
-   */
-  static registerThemes(themes: ThemeConfig[]): DynamicModule {
-    for (const theme of themes) {
-      themeRegistry.register(theme.id, theme);
+  /*
+  |--------------------------------------------------------------------------
+  | registerCustomizer
+  |--------------------------------------------------------------------------
+  |
+  | Register a single customizer panel.
+  |
+  */
+  static registerCustomizer(panel: CustomizerPanel): DynamicModule {
+    customizerRegistry.register(panel.id, panel);
+    return { module: ThemeModule, providers: [], exports: [] };
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | registerCustomizers
+  |--------------------------------------------------------------------------
+  |
+  | Register multiple customizer panels at once.
+  |
+  */
+  static registerCustomizers(panels: CustomizerPanel[]): DynamicModule {
+    for (const panel of panels) {
+      customizerRegistry.register(panel.id, panel);
     }
     return { module: ThemeModule, providers: [], exports: [] };
   }
