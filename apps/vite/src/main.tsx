@@ -18,6 +18,11 @@ import "@/styles/globals.css";
 async function bootstrap() {
   const app = await bootstrapApp(AppModule);
 
+  // Add Electron class to body for CSS adjustments (traffic light padding)
+  if ((window as any).electronAPI) {
+    document.body.classList.add("is-electron");
+  }
+
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <ContainerProvider context={app}>

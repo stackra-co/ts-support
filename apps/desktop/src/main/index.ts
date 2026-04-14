@@ -31,6 +31,26 @@ function createWindow(): void {
     minWidth: 800,
     minHeight: 600,
     title: "Pixielity",
+
+    /*
+    |--------------------------------------------------------------------------
+    | Window Chrome — dark seamless title bar
+    |--------------------------------------------------------------------------
+    |
+    | titleBarStyle: 'hiddenInset' hides the native title bar but keeps
+    | the traffic lights (close/min/max) inset into the window content.
+    |
+    | backgroundColor matches the app's dark background so there's no
+    | white flash on load.
+    |
+    | trafficLightPosition moves the buttons down to align with the
+    | web navbar content.
+    |
+    */
+    backgroundColor: "#000000",
+    titleBarStyle: "hiddenInset",
+    trafficLightPosition: { x: 15, y: 15 },
+
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       contextIsolation: true,
