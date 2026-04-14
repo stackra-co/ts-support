@@ -14,7 +14,6 @@ import { useLogger, LogLevel } from "@abdokouta/ts-logger";
 import { Card, Chip, Separator, Button } from "@heroui/react";
 
 import { title, subtitle } from "@/components/primitives";
-import DefaultLayout from "@/layouts/default";
 
 /** A captured log entry for display in the UI. */
 interface LogEntry {
@@ -107,7 +106,7 @@ export default function LoggerPage() {
   }
 
   return (
-    <DefaultLayout>
+    
       <section className="flex flex-col gap-8 py-8 md:py-10">
         {/* Header */}
         <div>
@@ -221,6 +220,6 @@ export default function LoggerPage() {
           </Card.Content>
         </Card>
       </section>
-    </DefaultLayout>
+    
   );
 }

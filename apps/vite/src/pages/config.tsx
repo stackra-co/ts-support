@@ -14,7 +14,6 @@ import { ConfigService } from "@abdokouta/ts-config";
 import { Card, Chip, Separator } from "@heroui/react";
 
 import { title, subtitle } from "@/components/primitives";
-import DefaultLayout from "@/layouts/default";
 
 /** A single config entry shown in the UI. */
 interface ConfigEntry {
@@ -74,7 +73,7 @@ export default function ConfigPage() {
   ];
 
   return (
-    <DefaultLayout>
+    
       <section className="flex flex-col gap-8 py-8 md:py-10">
         {/* Header */}
         <div>
@@ -171,6 +170,6 @@ const debug  = config.get('VITE_DEBUG', false);`}
           </Card.Content>
         </Card>
       </section>
-    </DefaultLayout>
+    
   );
 }

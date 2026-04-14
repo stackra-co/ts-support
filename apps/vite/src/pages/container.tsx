@@ -16,7 +16,6 @@ import { useInject, ContainerProvider } from "@abdokouta/ts-container-react";
 import { ApplicationContext } from "@abdokouta/ts-application";
 
 import { title, subtitle } from "@/components/primitives";
-import DefaultLayout from "@/layouts/default";
 
 // ---------------------------------------------------------------------------
 // Demo services
@@ -128,7 +127,7 @@ export default function ContainerPage() {
   }, []);
 
   return (
-    <DefaultLayout>
+    
       <section className="flex flex-col gap-8 py-8 md:py-10">
         <div>
           <h1 className={title()}>Container Package</h1>
@@ -214,6 +213,6 @@ function MyComponent() {
           </pre>
         </div>
       </section>
-    </DefaultLayout>
+    
   );
 }

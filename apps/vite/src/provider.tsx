@@ -1,23 +1,32 @@
 /**
  * @file provider.tsx
- * @description Additional providers (theme, etc.) that wrap the app.
+ * @description App shell — wraps all pages with navbar, layout, and footer.
  *
  * The DI container (ContainerProvider) is set up in main.tsx.
- * This file is for any other providers that need to wrap the app.
+ * This component provides the visual shell that every page shares.
  */
 
 import * as React from "react";
+import { Navbar } from "@/components/navbar";
 
 export interface ProviderProps {
   children: React.ReactNode;
 }
 
 /**
- * Provider — additional provider wrappers.
+ * Provider — app shell with navbar, content area, and footer.
  *
- * Add theme providers, toast providers, etc. here.
- * The DI container is already available from main.tsx.
+ * Every page is rendered inside this shell. Pages don't need to
+ * wrap themselves with DefaultLayout anymore.
  */
 export function Provider({ children }: ProviderProps) {
-  return <>{children}</>;
+  return (
+    <div className="relative flex flex-col h-screen">
+      <Navbar />
+      <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">{children}</main>
+      <footer className="w-full flex items-center justify-center py-3">
+        <span className="text-sm text-muted">Pixielity © {new Date().getFullYear()}</span>
+      </footer>
+    </div>
+  );
 }
