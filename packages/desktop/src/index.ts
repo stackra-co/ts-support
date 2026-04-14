@@ -28,8 +28,8 @@ export type { SerializedMenu, SerializedMenuItem } from "./services";
 export { ElectronBridge, BrowserBridge } from "./bridge";
 
 // Decorators
-export { Menu, MenuItem, Shortcut, OnIpc } from "./decorators";
-export type { ShortcutMetadata, OnIpcMetadata } from "./decorators";
+export { Menu, MenuItem, OnIpc } from "./decorators";
+export type { OnIpcMetadata } from "./decorators";
 
 // Hooks
 export { useDesktop, useMenuAction } from "./hooks";
@@ -49,6 +49,5 @@ export {
   DESKTOP_MANAGER,
   MENU_METADATA,
   MENU_ITEM_METADATA,
-  SHORTCUT_METADATA,
   ON_IPC_METADATA,
 } from "./constants";

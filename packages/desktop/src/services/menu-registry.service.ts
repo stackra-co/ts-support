@@ -5,16 +5,15 @@
  * | Collects @Menu / @MenuItem decorated classes and builds the menu template.
  * |--------------------------------------------------------------------------
  * |
- * | Each module can define its own menu items via decorated classes.
- * | The MenuRegistry collects them all and builds a unified menu template
- * | that gets sent to the Electron main process via IPC.
+ * | Also auto-registers keyboard shortcuts with @abdokouta/kbd's
+ * | ShortcutRegistry when menu items have accelerators.
  * |
  * | Flow:
  * |   1. Modules define @Menu classes with @MenuItem methods
  * |   2. MenuRegistry.register(instance) collects the metadata
- * |   3. MenuRegistry.buildTemplate() produces the full menu structure
- * |   4. DesktopManager sends it to main process via bridge.send('menu:update')
- * |   5. Main process calls Menu.buildFromTemplate(template)
+ * |   3. Menu items with accelerators are registered as kbd shortcuts
+ * |   4. MenuRegistry.buildTemplate() produces the full menu structure
+ * |   5. DesktopManager sends it to main process via bridge.send('menu:set')
  * |
  * @module @abdokouta/ts-desktop
  */
@@ -45,6 +44,22 @@ export interface SerializedMenu {
   items: SerializedMenuItem[];
 }
 
+/**
+ * Converts an Electron accelerator string to kbd key array.
+ * e.g. 'CmdOrCtrl+N' → ['command', 'N'] on Mac, ['ctrl', 'N'] on Windows
+ */
+function acceleratorToKeys(accelerator: string): string[] {
+  return accelerator.split("+").map((key) => {
+    const k = key.trim().toLowerCase();
+    if (k === "cmdorctrl" || k === "commandorcontrol") return "command";
+    if (k === "cmd" || k === "command") return "command";
+    if (k === "ctrl" || k === "control") return "ctrl";
+    if (k === "alt" || k === "option") return "alt";
+    if (k === "shift") return "shift";
+    return key.trim().toUpperCase();
+  });
+}
+
 @Injectable()
 export class MenuRegistry {
   /** Collected menu sections, keyed by menu id. */
@@ -53,16 +68,21 @@ export class MenuRegistry {
   /** Registered handler callbacks, keyed by IPC channel. */
   private readonly handlers = new Map<string, () => void>();
 
+  /** Collected shortcut registrations for kbd integration. */
+  private readonly shortcuts: Array<{
+    id: string;
+    name: string;
+    keys: string[];
+    category: string;
+    callback: () => void;
+  }> = [];
+
   /**
    * Register a @Menu decorated class instance.
-   *
-   * Reads @Menu metadata from the class and @MenuItem metadata
-   * from its methods. Merges items into the menu section.
    */
   register(instance: object): void {
     const constructor = instance.constructor;
 
-    // Read @Menu metadata.
     const menuMeta: MenuMetadata | undefined = Reflect.getMetadata(MENU_METADATA, constructor);
     if (!menuMeta) {
       console.log(`[MenuRegistry] No @Menu metadata on ${constructor.name} — skipping`);
@@ -71,13 +91,11 @@ export class MenuRegistry {
 
     console.log(`[MenuRegistry] Registering @Menu('${menuMeta.id}') from ${constructor.name}`);
 
-    // Read @MenuItem metadata from methods.
     const itemsMeta: MenuItemMetadata[] =
       Reflect.getMetadata(MENU_ITEM_METADATA, constructor) ?? [];
 
     console.log(`[MenuRegistry]   Found ${itemsMeta.length} @MenuItem methods`);
 
-    // Get or create the menu section.
     let menu = this.menus.get(menuMeta.id);
     if (!menu) {
       menu = {
@@ -89,7 +107,6 @@ export class MenuRegistry {
       this.menus.set(menuMeta.id, menu);
     }
 
-    // Add items from this class.
     for (const itemMeta of itemsMeta) {
       const ipcChannel = `menu:${menuMeta.id}:${itemMeta.method}`;
 
@@ -107,36 +124,64 @@ export class MenuRegistry {
 
       // Register the handler callback.
       if (serialized.ipcChannel) {
-        const handler = (instance as Record<string, Function>)[itemMeta.method];
+        const handler = (instance as unknown as Record<string, Function>)[itemMeta.method];
         if (typeof handler === "function") {
-          this.handlers.set(ipcChannel, handler.bind(instance));
+          const boundHandler = handler.bind(instance);
+          this.handlers.set(ipcChannel, boundHandler);
+
+          /*
+          |--------------------------------------------------------------------------
+          | Auto-register as kbd shortcut if the item has an accelerator.
+          |--------------------------------------------------------------------------
+          |
+          | This bridges the desktop menu system with the kbd package.
+          | In Electron: the native menu handles the shortcut.
+          | In browser: kbd's useKeyboardShortcut handles it.
+          |
+          */
+          if (serialized.accelerator && serialized.label) {
+            this.shortcuts.push({
+              id: `menu:${menuMeta.id}:${itemMeta.method}`,
+              name: serialized.label,
+              keys: acceleratorToKeys(serialized.accelerator),
+              category: menuMeta.id,
+              callback: boundHandler,
+            });
+          }
         }
       }
     }
   }
 
-  /**
-   * Build the full menu template sorted by order.
-   *
-   * Returns an array of serialised menu sections ready for IPC
-   * transport to the Electron main process.
-   */
+  /** Build the full menu template sorted by order. */
   buildTemplate(): SerializedMenu[] {
     return Array.from(this.menus.values()).sort((a, b) => a.order - b.order);
   }
 
-  /**
-   * Get a handler callback by IPC channel.
-   */
+  /** Get a handler callback by IPC channel. */
   getHandler(channel: string): (() => void) | undefined {
     return this.handlers.get(channel);
   }
 
-  /**
-   * Get all registered IPC channels.
-   */
+  /** Get all registered IPC channels. */
   getChannels(): string[] {
     return Array.from(this.handlers.keys());
+  }
+
+  /**
+   * Get all collected shortcuts for kbd registration.
+   *
+   * Returns shortcut data that can be passed to kbd's ShortcutRegistry.
+   * The DesktopManager calls this and registers them with kbd.
+   */
+  getShortcuts(): Array<{
+    id: string;
+    name: string;
+    keys: string[];
+    category: string;
+    callback: () => void;
+  }> {
+    return [...this.shortcuts];
   }
 
   /** Number of registered menu sections. */

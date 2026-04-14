@@ -110,6 +110,39 @@ export class DesktopManager implements OnModuleInit {
       }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Register menu shortcuts with @abdokouta/kbd
+    |--------------------------------------------------------------------------
+    |
+    | In browser mode: kbd handles keyboard shortcuts via addEventListener.
+    | In Electron mode: native menu handles accelerators, but we still
+    | register with kbd so <ShortcutList> and <ShortcutHint> work.
+    |
+    */
+    const shortcuts = this.menuRegistry.getShortcuts();
+    if (shortcuts.length > 0) {
+      try {
+        // Dynamic import to avoid hard dependency on kbd.
+        const { KbdModule } = require("@abdokouta/kbd");
+        for (const shortcut of shortcuts) {
+          KbdModule.register({
+            id: shortcut.id,
+            name: shortcut.name,
+            keys: shortcut.keys,
+            category: shortcut.category as any,
+            context: "global" as any,
+            callback: shortcut.callback,
+            showInHelp: true,
+          });
+        }
+        console.log(`[DesktopManager] ✅ Registered ${shortcuts.length} shortcuts with kbd`);
+      } catch {
+        // kbd not installed — skip silently.
+        console.log("[DesktopManager] kbd not available — shortcuts not registered");
+      }
+    }
+
     console.log("[DesktopManager] ──────────────────────────────────────");
   }
 
