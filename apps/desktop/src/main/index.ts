@@ -8,6 +8,11 @@
  * | Dev:  loads http://localhost:5173 (Vite dev server)
  * | Prod: loads ../vite/dist/index.html (built Vite app)
  * |
+ * | Menu is built dynamically:
+ * |   1. Starts with a minimal default menu (Edit, View, Window, Help)
+ * |   2. Renderer sends 'menu:set' with the full template from MenuRegistry
+ * |   3. Main process rebuilds the native menu from the template
+ * |
  */
 
 import { app, BrowserWindow, shell, ipcMain, Menu, Notification, dialog } from "electron";
@@ -15,6 +20,7 @@ import { join } from "path";
 import { writeFileSync } from "fs";
 
 const isDev = !app.isPackaged;
+const isMac = process.platform === "darwin";
 
 /*
 |--------------------------------------------------------------------------
@@ -31,26 +37,9 @@ function createWindow(): void {
     minWidth: 800,
     minHeight: 600,
     title: "Pixielity",
-
-    /*
-    |--------------------------------------------------------------------------
-    | Window Chrome — dark seamless title bar
-    |--------------------------------------------------------------------------
-    |
-    | titleBarStyle: 'hiddenInset' hides the native title bar but keeps
-    | the traffic lights (close/min/max) inset into the window content.
-    |
-    | backgroundColor matches the app's dark background so there's no
-    | white flash on load.
-    |
-    | trafficLightPosition moves the buttons down to align with the
-    | web navbar content.
-    |
-    */
     backgroundColor: "#18181b",
     titleBarStyle: "hiddenInset",
     trafficLightPosition: { x: 15, y: 15 },
-
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       contextIsolation: true,
@@ -59,13 +48,9 @@ function createWindow(): void {
   });
 
   if (isDev) {
-    // Dev — load from Vite dev server (started by concurrently).
     mainWindow.loadURL("http://localhost:5173");
     mainWindow.webContents.openDevTools();
   } else {
-    // Prod — load the built Vite app.
-    // The Vite build output is at ../../apps/vite/dist/ relative to this file,
-    // but in the packaged app it's bundled alongside.
     mainWindow.loadFile(join(__dirname, "../../renderer/index.html"));
   }
 
@@ -81,13 +66,15 @@ function createWindow(): void {
 
 /*
 |--------------------------------------------------------------------------
-| App Menu
+| Default Menu (before renderer sends the full template)
 |--------------------------------------------------------------------------
+|
+| Minimal menu that's shown while the DI container boots.
+| Once the renderer sends 'menu:set', this gets replaced.
+|
 */
 
-function createMenu(): void {
-  const isMac = process.platform === "darwin";
-
+function createDefaultMenu(): void {
   const template: Electron.MenuItemConstructorOptions[] = [
     ...(isMac
       ? [
@@ -108,29 +95,6 @@ function createMenu(): void {
         ]
       : []),
     {
-      label: "File",
-      submenu: [
-        {
-          label: "New Order",
-          accelerator: "CmdOrCtrl+N",
-          click: () => mainWindow?.webContents.send("menu:new-order"),
-        },
-        {
-          label: "Print Receipt",
-          accelerator: "CmdOrCtrl+P",
-          click: () => mainWindow?.webContents.send("menu:print"),
-        },
-        { type: "separator" },
-        {
-          label: "Export Data",
-          accelerator: "CmdOrCtrl+E",
-          click: () => mainWindow?.webContents.send("menu:export"),
-        },
-        { type: "separator" },
-        isMac ? { role: "close" } : { role: "quit" },
-      ],
-    },
-    {
       label: "Edit",
       submenu: [
         { role: "undo" },
@@ -139,14 +103,12 @@ function createMenu(): void {
         { role: "cut" },
         { role: "copy" },
         { role: "paste" },
-        { role: "selectAll" },
       ],
     },
     {
       label: "View",
       submenu: [
         { role: "reload" },
-        { role: "forceReload" },
         { role: "toggleDevTools" },
         { type: "separator" },
         { role: "resetZoom" },
@@ -158,37 +120,140 @@ function createMenu(): void {
     },
     {
       label: "Window",
-      submenu: [
-        { role: "minimize" },
-        { role: "zoom" },
-        ...(isMac
-          ? [{ type: "separator" as const }, { role: "front" as const }]
-          : [{ role: "close" as const }]),
-      ],
-    },
-    {
-      label: "Help",
-      submenu: [
-        {
-          label: "Documentation",
-          click: () => shell.openExternal("https://pixielity.com/docs"),
-        },
-        {
-          label: `About Pixielity v${app.getVersion()}`,
-          click: () => {
-            dialog.showMessageBox({
-              type: "info",
-              title: "About Pixielity",
-              message: `Pixielity Desktop v${app.getVersion()}`,
-              detail: "Built with Electron + Vite + React",
-            });
-          },
-        },
-      ],
+      submenu: [{ role: "minimize" }, { role: "zoom" }],
     },
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
+
+/*
+|--------------------------------------------------------------------------
+| Dynamic Menu (received from renderer via IPC)
+|--------------------------------------------------------------------------
+|
+| The renderer's MenuRegistry collects @Menu/@MenuItem decorated classes
+| and sends the full template here. We convert it to Electron's format
+| and rebuild the native menu.
+|
+| SerializedMenu format (from @abdokouta/ts-desktop):
+| {
+|   id: 'file',
+|   label: 'File',
+|   order: 0,
+|   items: [
+|     { label: 'New Order', accelerator: 'CmdOrCtrl+N', ipcChannel: 'menu:file:newOrder' },
+|     { type: 'separator' },
+|     { role: 'quit' },
+|   ]
+| }
+|
+*/
+
+interface SerializedMenuItem {
+  label?: string;
+  accelerator?: string;
+  type?: string;
+  role?: string;
+  enabled?: boolean;
+  visible?: boolean;
+  ipcChannel?: string;
+}
+
+interface SerializedMenu {
+  id: string;
+  label: string;
+  order: number;
+  items: SerializedMenuItem[];
+}
+
+function buildMenuFromTemplate(menus: SerializedMenu[]): void {
+  const template: Electron.MenuItemConstructorOptions[] = [];
+
+  // macOS app menu (always first).
+  if (isMac) {
+    template.push({
+      label: app.name,
+      submenu: [
+        { role: "about" },
+        { type: "separator" },
+        { role: "services" },
+        { type: "separator" },
+        { role: "hide" },
+        { role: "hideOthers" },
+        { role: "unhide" },
+        { type: "separator" },
+        { role: "quit" },
+      ],
+    });
+  }
+
+  // Convert each SerializedMenu to Electron format.
+  for (const menu of menus) {
+    const submenu: Electron.MenuItemConstructorOptions[] = [];
+
+    for (const item of menu.items) {
+      // Role-based items (undo, redo, cut, copy, paste, quit, etc.)
+      if (item.role) {
+        submenu.push({ role: item.role as any });
+        continue;
+      }
+
+      // Separator
+      if (item.type === "separator") {
+        submenu.push({ type: "separator" });
+        continue;
+      }
+
+      // Custom item with IPC channel
+      submenu.push({
+        label: item.label,
+        accelerator: item.accelerator,
+        enabled: item.enabled ?? true,
+        visible: item.visible ?? true,
+        click: item.ipcChannel ? () => mainWindow?.webContents.send(item.ipcChannel!) : undefined,
+      });
+    }
+
+    template.push({ label: menu.label, submenu });
+  }
+
+  // Always add Window menu.
+  template.push({
+    label: "Window",
+    submenu: [
+      { role: "minimize" },
+      { role: "zoom" },
+      ...(isMac
+        ? [{ type: "separator" as const }, { role: "front" as const }]
+        : [{ role: "close" as const }]),
+    ],
+  });
+
+  // Always add Help menu.
+  template.push({
+    label: "Help",
+    submenu: [
+      {
+        label: "Documentation",
+        click: () => shell.openExternal("https://pixielity.com/docs"),
+      },
+      {
+        label: `About v${app.getVersion()}`,
+        click: () => {
+          dialog.showMessageBox({
+            type: "info",
+            title: "About",
+            message: `Pixielity Desktop v${app.getVersion()}`,
+            detail: "Built with Electron + Vite + React",
+          });
+        },
+      },
+    ],
+  });
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  console.log(`[Main] Menu updated: ${menus.map((m) => m.label).join(", ")}`);
 }
 
 /*
@@ -198,8 +263,32 @@ function createMenu(): void {
 */
 
 function registerIpcHandlers(): void {
+  // App info.
   ipcMain.handle("get-app-version", () => app.getVersion());
 
+  /*
+  |--------------------------------------------------------------------------
+  | menu:set — receive menu template from renderer
+  |--------------------------------------------------------------------------
+  |
+  | The renderer's DesktopManager sends the full menu template
+  | after the DI container boots and MenuRegistry is populated.
+  |
+  */
+  ipcMain.on("menu:set", (_event, menus: SerializedMenu[]) => {
+    buildMenuFromTemplate(menus);
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | menu:get — renderer requests the current menu state
+  |--------------------------------------------------------------------------
+  */
+  ipcMain.handle("menu:get", () => {
+    return Menu.getApplicationMenu();
+  });
+
+  // Printing.
   ipcMain.handle("print-receipt", async (_event, html: string) => {
     const win = new BrowserWindow({ show: false });
     win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
@@ -208,10 +297,12 @@ function registerIpcHandlers(): void {
     });
   });
 
+  // Cash drawer.
   ipcMain.handle("open-cash-drawer", async () => {
     console.log("[Main] Cash drawer open command");
   });
 
+  // File export.
   ipcMain.handle("export-file", async (_event, data: string, filename: string) => {
     const result = await dialog.showSaveDialog(mainWindow!, {
       defaultPath: filename,
@@ -228,6 +319,7 @@ function registerIpcHandlers(): void {
     return null;
   });
 
+  // Notifications.
   ipcMain.handle("notify", async (_event, title: string, body: string) => {
     new Notification({ title, body }).show();
   });
@@ -240,7 +332,7 @@ function registerIpcHandlers(): void {
 */
 
 app.whenReady().then(() => {
-  createMenu();
+  createDefaultMenu();
   registerIpcHandlers();
   createWindow();
 
