@@ -35,9 +35,15 @@ export interface UseInfiniteListReturnType<
   /** Whether previous page is being fetched */
   isFetchingPreviousPage: boolean;
   /** Fetch the next page */
-  fetchNextPage: UseInfiniteQueryResult<InfiniteData<GetListResponse<TData>>, TError>['fetchNextPage'];
+  fetchNextPage: UseInfiniteQueryResult<
+    InfiniteData<GetListResponse<TData>>,
+    TError
+  >['fetchNextPage'];
   /** Fetch the previous page */
-  fetchPreviousPage: UseInfiniteQueryResult<InfiniteData<GetListResponse<TData>>, TError>['fetchPreviousPage'];
+  fetchPreviousPage: UseInfiniteQueryResult<
+    InfiniteData<GetListResponse<TData>>,
+    TError
+  >['fetchPreviousPage'];
   /** Error object */
   error: TError | null;
   /** Original query object */

@@ -130,7 +130,10 @@ export { useDeleteMany } from './hooks/use-delete-many';
 export type { UseDeleteManyProps, UseDeleteManyReturnType } from './hooks/use-delete-many';
 
 export { useCustomMutation } from './hooks/use-custom-mutation';
-export type { UseCustomMutationProps, UseCustomMutationReturnType } from './hooks/use-custom-mutation';
+export type {
+  UseCustomMutationProps,
+  UseCustomMutationReturnType,
+} from './hooks/use-custom-mutation';
 
 export { useInfiniteList } from './hooks/use-infinite-list';
 export type { UseInfiniteListProps, UseInfiniteListReturnType } from './hooks/use-infinite-list';

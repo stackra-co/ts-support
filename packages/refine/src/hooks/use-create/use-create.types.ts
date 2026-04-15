@@ -50,7 +50,7 @@ export interface UseCreateReturnType<
   /** Execute the create mutation and return a promise */
   mutateAsync: (
     variables?: CreateMutationVariables<TVariables>,
-    options?: any,
+    options?: any
   ) => Promise<CreateResponse<TData>>;
   /** Loading state - true while mutation is in progress */
   isLoading: boolean;

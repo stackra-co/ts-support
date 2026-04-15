@@ -7,7 +7,7 @@ export const useInfiniteList = <
   TError extends HttpError = HttpError,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props: UseInfiniteListProps<TQueryFnData, TError, TData>,
+  props: UseInfiniteListProps<TQueryFnData, TError, TData>
 ): UseInfiniteListReturnType<TData, TError> => {
   const result = useInfiniteListOriginal<TQueryFnData, TError, TData>(props);
 

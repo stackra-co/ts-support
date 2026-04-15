@@ -1,5 +1,10 @@
 import type { UseMutationResult } from '@tanstack/react-query';
-import type { BaseRecord, HttpError, CreateManyResponse, UseCreateManyProps as UseCreateManyPropsOriginal } from '@refinedev/core';
+import type {
+  BaseRecord,
+  HttpError,
+  CreateManyResponse,
+  UseCreateManyProps as UseCreateManyPropsOriginal,
+} from '@refinedev/core';
 
 export type UseCreateManyProps<
   TData extends BaseRecord = BaseRecord,

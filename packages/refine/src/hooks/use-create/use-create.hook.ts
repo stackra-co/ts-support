@@ -66,7 +66,7 @@ export const useCreate = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseCreateProps<TData, TError, TVariables>,
+  props?: UseCreateProps<TData, TError, TVariables>
 ): UseCreateReturnType<TData, TError, TVariables> => {
   const result = useCreateOriginal<TData, TError, TVariables>(props);
 

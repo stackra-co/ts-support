@@ -67,7 +67,8 @@
   },
   "dependencies": {
     "@abdokouta/ts-container": "workspace:*",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "lucide-react": "^1.7.0"
   },
   "devDependencies": {
     "@refinedev/core": "^5.0.11",

@@ -64,7 +64,7 @@ export const useUpdate = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseUpdateProps<TData, TError, TVariables>,
+  props?: UseUpdateProps<TData, TError, TVariables>
 ): UseUpdateReturnType<TData, TError, TVariables> => {
   const result = useUpdateOriginal<TData, TError, TVariables>(props);
 

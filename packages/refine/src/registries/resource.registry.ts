@@ -70,7 +70,7 @@ export class ResourceRegistry {
   register(resource: ExtendedResourceItem): void {
     if (this.resources.has(resource.name)) {
       throw new Error(
-        `Resource with name "${resource.name}" is already registered. Use update() to modify existing resources.`,
+        `Resource with name "${resource.name}" is already registered. Use update() to modify existing resources.`
       );
     }
 
@@ -116,7 +116,7 @@ export class ResourceRegistry {
     const existing = this.resources.get(name);
     if (!existing) {
       throw new Error(
-        `Resource with name "${name}" not found. Use register() to add new resources.`,
+        `Resource with name "${name}" not found. Use register() to add new resources.`
       );
     }
 

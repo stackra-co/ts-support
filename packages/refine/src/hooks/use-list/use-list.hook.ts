@@ -60,7 +60,7 @@ export const useList = <
   TError extends HttpError = HttpError,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props?: UseListProps<TQueryFnData, TError, TData>,
+  props?: UseListProps<TQueryFnData, TError, TData>
 ): UseListReturnType<TData, TError> => {
   const result = useListOriginal<TQueryFnData, TError, TData>(props);
 

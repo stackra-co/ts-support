@@ -1,13 +1,16 @@
 import { useCustomMutation as useCustomMutationOriginal } from '@refinedev/core';
 import type { BaseRecord, HttpError } from '@refinedev/core';
-import type { UseCustomMutationProps, UseCustomMutationReturnType } from './use-custom-mutation.types';
+import type {
+  UseCustomMutationProps,
+  UseCustomMutationReturnType,
+} from './use-custom-mutation.types';
 
 export const useCustomMutation = <
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseCustomMutationProps<TData, TError, TVariables>,
+  props?: UseCustomMutationProps<TData, TError, TVariables>
 ): UseCustomMutationReturnType<TData, TError, TVariables> => {
   const result = useCustomMutationOriginal<TData, TError, TVariables>(props ?? {});
 

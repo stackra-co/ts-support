@@ -23,7 +23,7 @@ import type {
 export type UseDeleteProps<
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 > = UseDeletePropsOriginal<TData, TError, TVariables>;
 
 /**
@@ -49,7 +49,7 @@ export interface DeleteMutationVariables<TVariables = {}> {
 export interface UseDeleteReturnType<
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 > {
   /** Execute the delete mutation */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

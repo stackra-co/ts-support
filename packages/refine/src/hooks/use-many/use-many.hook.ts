@@ -48,7 +48,7 @@ export const useMany = <
   TError extends HttpError = HttpError,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props: UseManyProps<TQueryFnData, TError, TData>,
+  props: UseManyProps<TQueryFnData, TError, TData>
 ): UseManyReturnType<TData, TError> => {
   const result = useManyOriginal<TQueryFnData, TError, TData>(props);
 

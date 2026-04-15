@@ -7,7 +7,7 @@ export const useDeleteMany = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseDeleteManyProps<TData, TError, TVariables>,
+  props?: UseDeleteManyProps<TData, TError, TVariables>
 ): UseDeleteManyReturnType<TData, TError, TVariables> => {
   const result = useDeleteManyOriginal<TData, TError, TVariables>(props ?? {});
 

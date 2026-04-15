@@ -7,7 +7,7 @@ export const useCreateMany = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseCreateManyProps<TData, TError, TVariables>,
+  props?: UseCreateManyProps<TData, TError, TVariables>
 ): UseCreateManyReturnType<TData, TError, TVariables> => {
   const result = useCreateManyOriginal<TData, TError, TVariables>(props ?? {});
 

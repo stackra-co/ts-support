@@ -49,7 +49,7 @@ export const useOne = <
   TError extends HttpError = HttpError,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props: UseOneProps<TQueryFnData, TError, TData>,
+  props: UseOneProps<TQueryFnData, TError, TData>
 ): UseOneReturnType<TData, TError> => {
   const result = useOneOriginal<TQueryFnData, TError, TData>(props);
 

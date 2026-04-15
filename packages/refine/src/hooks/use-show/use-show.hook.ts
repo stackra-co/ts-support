@@ -54,7 +54,7 @@ export const useShow = <
   TError extends HttpError = HttpError,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props?: UseShowProps<TQueryFnData, TError, TData>,
+  props?: UseShowProps<TQueryFnData, TError, TData>
 ): UseShowReturnType<TData, TError> => {
   const result = useShowOriginal<TQueryFnData, TError, TData>(props);
 

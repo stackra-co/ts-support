@@ -56,7 +56,7 @@ export interface UseUpdateReturnType<
   /** Execute the update mutation and return a promise */
   mutateAsync: (
     variables?: UpdateMutationVariables<TVariables>,
-    options?: any,
+    options?: any
   ) => Promise<UpdateResponse<TData>>;
   /** Loading state - true while mutation is in progress */
   isLoading: boolean;

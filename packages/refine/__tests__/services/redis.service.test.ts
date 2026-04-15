@@ -169,7 +169,7 @@ describe('RedisService', () => {
     it('should throw error for unconfigured connection', async () => {
       // Act & Assert: Attempting to get invalid connection should throw
       await expect(redisService.connection('invalid')).rejects.toThrow(
-        'Redis connection [invalid] not configured',
+        'Redis connection [invalid] not configured'
       );
     });
   });

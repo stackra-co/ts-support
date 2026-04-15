@@ -100,7 +100,7 @@ interface User {
 export class UserService {
   constructor(
     private readonly redis: RedisService,
-    private readonly database: DatabaseService,
+    private readonly database: DatabaseService
   ) {}
 
   async getUser(id: string): Promise<User | null> {
@@ -344,7 +344,11 @@ export class LockService {
     await connection.del(`lock:${resource}`);
   }
 
-  async withLock<T>(resource: string, callback: () => Promise<T>, ttl: number = 10): Promise<T> {
+  async withLock<T>(
+    resource: string,
+    callback: () => Promise<T>,
+    ttl: number = 10
+  ): Promise<T> {
     const acquired = await this.acquireLock(resource, ttl);
 
     if (!acquired) {
@@ -378,7 +382,7 @@ export class RateLimitService {
   async checkRateLimit(
     userId: string,
     limit: number = 100,
-    window: number = 60,
+    window: number = 60
   ): Promise<{ allowed: boolean; remaining: number }> {
     const connection = await this.redis.connection();
     const key = `ratelimit:${userId}`;
@@ -402,7 +406,7 @@ async function rateLimitMiddleware(req, res, next) {
   const { allowed, remaining } = await rateLimitService.checkRateLimit(
     req.user.id,
     100, // 100 requests
-    60, // per minute
+    60 // per minute
   );
 
   res.setHeader('X-RateLimit-Remaining', remaining.toString());
@@ -429,7 +433,7 @@ export class SessionService {
     await connection.set(
       `session:${sessionId}`,
       JSON.stringify({ userId, ...data }),
-      { ex: 86400 }, // 24 hours
+      { ex: 86400 } // 24 hours
     );
 
     return sessionId;

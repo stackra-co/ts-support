@@ -9,7 +9,7 @@ export const useCustom = <
   TPayload = unknown,
   TData extends BaseRecord = TQueryFnData,
 >(
-  props: UseCustomProps<TQueryFnData, TError, TQuery, TPayload, TData>,
+  props: UseCustomProps<TQueryFnData, TError, TQuery, TPayload, TData>
 ): UseCustomReturnType<TData, TError> => {
   const result = useCustomOriginal<TQueryFnData, TError, TQuery, TPayload, TData>(props);
 

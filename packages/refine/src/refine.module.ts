@@ -428,7 +428,7 @@ export class RefineModule {
       this.addAsyncProviderFactories(providers);
     } else {
       throw new Error(
-        'Invalid async configuration. Must provide useFactory, useClass, or useExisting.',
+        'Invalid async configuration. Must provide useFactory, useClass, or useExisting.'
       );
     }
 

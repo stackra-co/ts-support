@@ -7,7 +7,7 @@ export const useUpdateMany = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseUpdateManyProps<TData, TError, TVariables>,
+  props?: UseUpdateManyProps<TData, TError, TVariables>
 ): UseUpdateManyReturnType<TData, TError, TVariables> => {
   const result = useUpdateManyOriginal<TData, TError, TVariables>(props ?? {});
 

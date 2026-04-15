@@ -64,7 +64,7 @@ export const useDelete = <
   TError extends HttpError = HttpError,
   TVariables = {},
 >(
-  props?: UseDeleteProps<TData, TError, TVariables>,
+  props?: UseDeleteProps<TData, TError, TVariables>
 ): UseDeleteReturnType<TData, TError, TVariables> => {
   const result = useDeleteOriginal<TData, TError, TVariables>(props);
 
