@@ -23,7 +23,7 @@
  * ```
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Kbd } from '@heroui/react';
 import { KbdVisibilityContext } from '@/contexts/kbd-visibility.context';
 import type { KeyValue } from '@/types/key-value.type';
