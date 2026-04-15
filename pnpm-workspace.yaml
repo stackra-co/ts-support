@@ -1,15 +1,22 @@
-# pnpm-workspace.yaml — frontend-monorepo
+# =============================================================================
+# pnpm Workspace Configuration
+# =============================================================================
 #
 # Declares the workspace packages for pnpm.
-# pnpm does not read the "workspaces" field in package.json — this file
+# pnpm does NOT read the "workspaces" field in package.json — this file
 # is the canonical source of truth when using pnpm as the package manager.
 #
+# All packages listed here can reference each other via workspace:* protocol.
+#
 # Docs: https://pnpm.io/pnpm-workspace_yaml
+# =============================================================================
 
 packages:
-  # Deployable applications
+  # ── Deployable Applications ────────────────────────────────────────────────
+  # Vite app (web), Electron desktop app
   - "apps/*"
-  # Shared packages / libraries
+
+  # ── Shared Packages / Libraries ────────────────────────────────────────────
+  # cache, config, desktop, events, kbd, logger, pwa, redis, rxdb-eloquent,
+  # settings, support, theming, ui, refine, multitenancy
   - "packages/*"
-  # Container sub-packages (ts-container, ts-container-react, ts-application)
-  - "packages/container/*"

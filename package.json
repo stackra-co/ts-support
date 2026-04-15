@@ -1,7 +1,7 @@
 {
   "name": "pixielity-frontend-monorepo",
   "version": "0.0.0",
-  "description": "Production-ready Next.js monorepo template powered by Turborepo.",
+  "description": "Pixielity frontend monorepo — React/Vite/Electron apps and shared TypeScript packages.",
   "private": true,
   "homepage": "https://github.com/pixielity-inc/frontend-monorepo#readme",
   "repository": {
@@ -13,36 +13,74 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Your Name",
-    "email": "you@example.com",
-    "url": "https://example.com"
+    "name": "Abdelrhman Kouta",
+    "email": "dev@pixielity.com",
+    "url": "https://pixielity.com"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "prepare": "git config core.hooksPath .githooks",
     "build": "turbo run build",
+    "build:packages": "turbo run build --filter='./packages/*'",
+    "build:apps": "turbo run build --filter='./apps/*'",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,css,js,mjs,cjs}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,css,js,mjs,cjs}\"",
+    "check-types": "turbo run check-types",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
-    "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
-    "clean": "turbo run clean",
-    "clean:all": "turbo run clean && rm -rf node_modules",
-    "upgrade": "pnpm update --recursive --latest"
+    "test:coverage": "turbo run test:coverage",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "clean:cache": "turbo clean",
+    "clean:deps": "rm -rf node_modules apps/*/node_modules packages/*/node_modules",
+    "clean:build": "turbo run clean",
+    "reset": "pnpm clean:deps && pnpm install",
+    "prepare": "husky",
+    "preinstall": "npx only-allow pnpm",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "release": "turbo run build --filter='./packages/*' && changeset publish",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "ci:publish": "pnpm publish -r --access public",
+    "sync-configs": "./scripts/sync-configs/sync-configs.sh",
+    "fix-deps": "python3 ./scripts/sync-configs/fix-workspace-deps.py",
+    "validate": "pnpm lint && pnpm check-types && pnpm build",
+    "graph": "turbo run build --graph=dependency-graph.html",
+    "update:deps": "pnpm update -r --latest",
+    "audit": "pnpm audit --audit-level=moderate",
+    "audit:fix": "pnpm audit --fix"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.1",
     "turbo": "^2.9.3",
-    "typescript": "5.9.2"
+    "typescript": "^6.0.2",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "only-allow": "^1.2.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tsup": "^8.5.1"
   },
   "pnpm": {
+    "overrides": {
+      "typescript": "^6.0.2",
+      "tsup": "^8.5.1",
+      "vitest": "^4.1.2",
+      "eslint": "^10.1.0",
+      "prettier": "^3.8.1",
+      "@nesvel/typescript-config": "^1.0.4",
+      "@nesvel/tsup-config": "^1.0.3",
+      "@nesvel/eslint-config": "^1.0.5",
+      "@nesvel/prettier-config": "^1.0.3"
+    },
     "onlyBuiltDependencies": [
       "electron",
       "electron-winstaller",
