@@ -1,4 +1,13 @@
-name: CodeQL Security Analysis
+# =============================================================================
+# 🛡️ CodeQL — Security Analysis
+# =============================================================================
+#
+# Runs GitHub's CodeQL security scanner on push, PR, and weekly schedule.
+# Detects security vulnerabilities and code quality issues.
+#
+# =============================================================================
+
+name: "🛡️ CodeQL"
 
 on:
   push:
@@ -6,12 +15,11 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    # Run at 00:00 UTC every Monday
-    - cron: '0 0 * * 1'
+    - cron: "0 0 * * 1"
 
 jobs:
   analyze:
-    name: Analyze Code
+    name: "🛡️ Analyze"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -22,22 +30,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript', 'typescript']
+        language: ["javascript-typescript"]
 
     steps:
-      - name: Checkout code
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
+      - name: "🛡️ Initialize CodeQL"
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           queries: security-extended,security-and-quality
 
-      - name: Autobuild
+      - name: "🔨 Autobuild"
         uses: github/codeql-action/autobuild@v3
 
-      - name: Perform CodeQL Analysis
+      - name: "🔍 Analyze"
         uses: github/codeql-action/analyze@v3
         with:
-          category: '/language:${{matrix.language}}'
+          category: "/language:${{ matrix.language }}"

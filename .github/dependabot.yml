@@ -1,39 +1,61 @@
+# =============================================================================
+# 🤖 Dependabot Configuration
+# =============================================================================
+#
+# Automatically creates PRs for dependency updates.
+# Runs weekly on Monday mornings.
+#
+# =============================================================================
+
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: 'npm'
-    directory: '/'
+  # ── npm dependencies ──────────────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
-    open-pull-requests-limit: 10
-    reviewers:
-      - 'your-team'
-    assignees:
-      - 'your-team'
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 15
     commit-message:
-      prefix: 'chore'
-      include: 'scope'
+      prefix: "⬆️ chore(deps)"
+      include: "scope"
     labels:
-      - 'dependencies'
-      - 'automated'
+      - "dependencies"
+      - "automated"
+    groups:
+      # Group all @nesvel/* config packages together
+      nesvel-configs:
+        patterns:
+          - "@nesvel/*"
+      # Group all testing dependencies together
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "jsdom"
+      # Group all build tools together
+      build-tools:
+        patterns:
+          - "tsup"
+          - "typescript"
+          - "turbo"
     ignore:
-      # Ignore major version updates for stable dependencies
-      - dependency-name: 'react'
-        update-types: ['version-update:semver-major']
-      - dependency-name: 'react-dom'
-        update-types: ['version-update:semver-major']
+      # Don't auto-update React major versions (breaking changes)
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
 
-  # Enable version updates for GitHub Actions
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  # ── GitHub Actions ────────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
     commit-message:
-      prefix: 'ci'
+      prefix: "⬆️ ci"
     labels:
-      - 'ci'
-      - 'automated'
+      - "ci"
+      - "automated"

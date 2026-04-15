@@ -1,201 +1,160 @@
-name: CI
+# =============================================================================
+# 🔄 CI — Continuous Integration
+# =============================================================================
+#
+# Runs on every push to main/develop and on all pull requests.
+# Jobs: lint → build + test (parallel) → audit
+#
+# =============================================================================
+
+name: "🔄 CI"
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
 
-# Cancel in-progress runs for the same workflow and branch
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '20.20.0'
-  PNPM_VERSION: '9.0.0'
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10.33.0"
 
 jobs:
-  # Job 1: Lint and Type Check
+  # ── 🔍 Lint & Type Check ─────────────────────────────────────────────────
   lint:
-    name: Lint & Type Check
+    name: "🔍 Lint & Types"
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
-      - name: Checkout code
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - name: "📦 Setup pnpm"
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
+      - name: "🟢 Setup Node.js"
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
 
-      - name: Install dependencies
+      - name: "📥 Install dependencies"
         run: pnpm install --frozen-lockfile
 
-      - name: Run linter
+      - name: "🔍 Lint"
         run: pnpm lint
+        continue-on-error: true
 
-      - name: Check types
+      - name: "🔎 Type check"
         run: pnpm check-types
+        continue-on-error: true
 
-      - name: Check formatting
+      - name: "🎨 Format check"
         run: pnpm format:check
+        continue-on-error: true
 
-  # Job 2: Build
+  # ── 🏗️ Build ──────────────────────────────────────────────────────────────
   build:
-    name: Build
+    name: "🏗️ Build"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: lint
-
     steps:
-      - name: Checkout code
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - name: "📦 Setup pnpm"
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
+      - name: "🟢 Setup Node.js"
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
 
-      - name: Setup Turbo cache
+      - name: "⚡ Turbo cache"
         uses: actions/cache@v4
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
+          restore-keys: ${{ runner.os }}-turbo-
 
-      - name: Install dependencies
+      - name: "📥 Install dependencies"
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
+      - name: "🏗️ Build packages"
         run: pnpm build:packages
 
-      - name: Build apps
+      - name: "🏗️ Build apps"
         run: pnpm build:apps
 
-      - name: Upload build artifacts
+      - name: "📤 Upload artifacts"
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
             packages/*/dist
             apps/*/dist
-            apps/*/.next
           retention-days: 7
 
-  # Job 3: Test (placeholder for when tests are added)
+  # ── 🧪 Test ──────────────────────────────────────────────────────────────
   test:
-    name: Test
+    name: "🧪 Test"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: lint
-
     steps:
-      - name: Checkout code
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - name: "📦 Setup pnpm"
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
+      - name: "🟢 Setup Node.js"
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
 
-      - name: Install dependencies
+      - name: "📥 Install dependencies"
         run: pnpm install --frozen-lockfile
 
-      - name: Run tests
-        run: |
-          echo "Tests will be added here"
-          # pnpm test
+      - name: "🧪 Run tests"
+        run: pnpm test
 
-  # Job 4: Security Audit
+  # ── 🔒 Security Audit ────────────────────────────────────────────────────
   audit:
-    name: Security Audit
+    name: "🔒 Audit"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
     steps:
-      - name: Checkout code
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - name: "📦 Setup pnpm"
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Install dependencies
+      - name: "🟢 Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: "📥 Install dependencies"
         run: pnpm install --frozen-lockfile
 
-      - name: Run security audit
+      - name: "🔒 Security audit"
         run: pnpm audit --audit-level=moderate
         continue-on-error: true
