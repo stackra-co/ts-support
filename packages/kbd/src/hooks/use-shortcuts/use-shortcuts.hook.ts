@@ -8,7 +8,6 @@
  * @category Hooks
  */
 
-import { useEffect } from 'react';
 import { useShortcut, type UseShortcutOptions } from '@/hooks/use-shortcut';
 
 /**
