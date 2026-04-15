@@ -16,6 +16,8 @@ import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { viteConfigPlugin } from "@abdokouta/ts-config/vite-plugin";
+import { vitePwaPlugin } from "@abdokouta/ts-pwa/vite-plugin";
+import pwaConfig from "./src/config/pwa.config";
 
 /**
  * Vite configuration factory.
@@ -79,6 +81,14 @@ export default defineConfig(({ mode }) => {
        * ConfigService (EnvDriver) can read them at runtime in the browser.
        */
       viteConfigPlugin({ env }),
+
+      /**
+       * PWA plugin — generates manifest.json, service worker, and
+       * workbox caching strategies. Config comes from pwa.config.ts.
+       */
+      ...(Array.isArray(vitePwaPlugin(pwaConfig.vite))
+        ? vitePwaPlugin(pwaConfig.vite)
+        : [vitePwaPlugin(pwaConfig.vite)]),
     ],
 
     // -------------------------------------------------------------------------

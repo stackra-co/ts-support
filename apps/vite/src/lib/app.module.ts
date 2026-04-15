@@ -31,6 +31,7 @@ import { EventsModule } from "@abdokouta/ts-events";
 import { SettingsModule } from "@abdokouta/ts-settings";
 import { DesktopModule } from "@abdokouta/ts-desktop";
 import { KbdModule } from "@abdokouta/kbd";
+import { PwaModule } from "@abdokouta/ts-pwa";
 
 import { configConfig } from "@/config/config.config";
 import loggerConfig from "@/config/logger.config";
@@ -39,6 +40,7 @@ import cacheConfig from "@/config/cache.config";
 import { defaultEventsConfig } from "@/config/events.config";
 import { defaultSettingsConfig } from "@/config/settings.config";
 import { desktopConfig } from "@/config/desktop.config";
+import pwaConfig from "@/config/pwa.config";
 import { FileMenu, EditMenu, ViewMenu } from "@/menus";
 
 /**
@@ -153,6 +155,18 @@ import { FileMenu, EditMenu, ViewMenu } from "@/menus";
     |
     */
     DesktopModule.forFeature([FileMenu, EditMenu, ViewMenu]),
+
+    /*
+    |--------------------------------------------------------------------------
+    | PWA — Progressive Web App features
+    |--------------------------------------------------------------------------
+    |
+    | Install prompt, update prompt, offline indicator, splash screen,
+    | pull-to-refresh, onboarding. Config drives both build-time
+    | (vite-plugin-pwa) and runtime (React components).
+    |
+    */
+    PwaModule.forRoot(pwaConfig),
   ],
   providers: [],
   exports: [],

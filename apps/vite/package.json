@@ -25,6 +25,7 @@
     "@abdokouta/ts-desktop": "workspace:*",
     "@abdokouta/kbd": "workspace:*",
     "@abdokouta/ts-pwa": "workspace:*",
+    "@abdokouta/ts-ui": "workspace:*",
     "@abdokouta/ts-logger": "workspace:*",
     "@abdokouta/ts-redis": "workspace:*",
     "@abdokouta/ts-cache": "workspace:*",
