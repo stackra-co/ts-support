@@ -53,6 +53,7 @@
     "validate": "pnpm lint && pnpm check-types && pnpm build",
     "graph": "turbo run build --graph=dependency-graph.html",
     "update:deps": "pnpm update -r --latest",
+    "update:interactive": "pnpm update -r --latest --interactive",
     "audit": "pnpm audit --audit-level=moderate",
     "audit:fix": "pnpm audit --fix"
   },

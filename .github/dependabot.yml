@@ -1,56 +1,39 @@
-# .github/dependabot.yml — frontend-monorepo
-#
-# Dependabot keeps npm and GitHub Actions dependencies up-to-date.
-#
-# Docs: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
-
 version: 2
-
 updates:
-  # ---------------------------------------------------------------------------
-  # npm — root workspace and all sub-packages
-  # ---------------------------------------------------------------------------
-  - package-ecosystem: npm
-    directory: /
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: weekly
-      day: monday
-      time: "08:00"
-      timezone: UTC
-    groups:
-      # Group all patch/minor updates into one PR per ecosystem.
-      npm-dependencies:
-        patterns: ["*"]
-        update-types: ["minor", "patch"]
-    labels:
-      - dependencies
-      - javascript
-    open-pull-requests-limit: 5
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 'your-team'
+    assignees:
+      - 'your-team'
     commit-message:
-      prefix: "chore(deps)"
-    # Ignore major version bumps for these — they require manual review.
+      prefix: 'chore'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'automated'
     ignore:
-      - dependency-name: "typescript"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "turbo"
-        update-types: ["version-update:semver-major"]
+      # Ignore major version updates for stable dependencies
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-dom'
+        update-types: ['version-update:semver-major']
 
-  # ---------------------------------------------------------------------------
-  # GitHub Actions
-  # ---------------------------------------------------------------------------
-  - package-ecosystem: github-actions
-    directory: /
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: weekly
-      day: monday
-      time: "08:00"
-      timezone: UTC
-    groups:
-      github-actions:
-        patterns: ["*"]
-    labels:
-      - dependencies
-      - ci
-    open-pull-requests-limit: 3
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     commit-message:
-      prefix: "ci(deps)"
+      prefix: 'ci'
+    labels:
+      - 'ci'
+      - 'automated'

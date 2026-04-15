@@ -1,27 +1,28 @@
-name: Release
+name: Publish Packages
 
 on:
-  push:
-    branches:
-      - main
-
-# Prevent concurrent releases
-concurrency:
-  group: release
-  cancel-in-progress: false
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - prerelease
 
 env:
   NODE_VERSION: '20.20.0'
   PNPM_VERSION: '9.0.0'
 
 jobs:
-  release:
-    name: Release Packages
+  publish:
+    name: Publish to npm
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     permissions:
       contents: write
-      pull-requests: write
       id-token: write
 
     steps:
@@ -59,27 +60,36 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run validation
+        run: pnpm validate
+
       - name: Build packages
         run: pnpm build:packages
 
-      - name: Create Release Pull Request or Publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          version: pnpm ci:version
-          publish: pnpm ci:publish
-          commit: 'chore: version packages'
-          title: 'chore: version packages'
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Version packages
+        run: |
+          pnpm changeset version
+          git add .
+          git commit -m "chore: version packages" || echo "No changes to commit"
+          git push || echo "No changes to push"
+
+      - name: Publish to npm
+        run: pnpm ci:publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Send Slack notification on success
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          echo "Packages published successfully!"
-          # Add Slack webhook notification here if needed
-          # curl -X POST -H 'Content-type: application/json' \
-          #   --data '{"text":"New packages published!"}' \
-          #   ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          release_name: Release v${{ github.event.inputs.version }}
+          draft: false
+          prerelease: ${{ github.event.inputs.version == 'prerelease' }}
