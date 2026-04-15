@@ -28,4 +28,7 @@
 // (dependencies + peerDependencies + devDependencies).
 import { basePreset as preset } from '@nesvel/tsup-config';
 
-export default preset;
+export default {
+  ...preset,
+  entry: ['src/index.tsx'],
+};
