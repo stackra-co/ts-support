@@ -44,7 +44,7 @@ export const ModeSwitcher: React.FC<ModeSwitcherProps> = ({ showLabel = false, c
   const { mode, setMode } = useColorMode();
 
   const next = () => {
-    const idx = MODE_CYCLE.indexOf(mode);
+    const idx = MODE_CYCLE.indexOf(mode || 'system');
     setMode(MODE_CYCLE[(idx + 1) % MODE_CYCLE.length]);
   };
 
@@ -54,11 +54,11 @@ export const ModeSwitcher: React.FC<ModeSwitcherProps> = ({ showLabel = false, c
       variant: 'ghost',
       size: 'sm',
       onPress: next,
-      'aria-label': `Switch color mode (current: ${mode})`,
+      'aria-label': `Switch color mode (current: ${mode || 'system'})`,
       className,
     },
-    MODE_ICONS[mode],
-    showLabel ? ` ${MODE_LABELS[mode]}` : null
+    MODE_ICONS[mode || 'system'],
+    showLabel ? ` ${MODE_LABELS[mode || 'system']}` : null
   );
 };
 
