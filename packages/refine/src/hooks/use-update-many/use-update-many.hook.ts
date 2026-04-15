@@ -5,11 +5,11 @@ import type { UseUpdateManyProps, UseUpdateManyReturnType } from './use-update-m
 export const useUpdateMany = <
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 >(
-  props?: UseUpdateManyProps<TData, TError, TVariables>
-): UseUpdateManyReturnType<TData, TError, TVariables> => {
-  const result = useUpdateManyOriginal<TData, TError, TVariables>(props ?? {});
+  props?: UseUpdateManyProps<TData, TError, _TVariables>
+): UseUpdateManyReturnType<TData, TError, _TVariables> => {
+  const result = useUpdateManyOriginal<TData, TError, _TVariables>(props ?? {});
 
   return {
     mutate: result.mutate,

@@ -5,11 +5,11 @@ import type { UseDeleteManyProps, UseDeleteManyReturnType } from './use-delete-m
 export const useDeleteMany = <
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 >(
-  props?: UseDeleteManyProps<TData, TError, TVariables>
-): UseDeleteManyReturnType<TData, TError, TVariables> => {
-  const result = useDeleteManyOriginal<TData, TError, TVariables>(props ?? {});
+  props?: UseDeleteManyProps<TData, TError, _TVariables>
+): UseDeleteManyReturnType<TData, TError, _TVariables> => {
+  const result = useDeleteManyOriginal<TData, TError, _TVariables>(props ?? {});
 
   return {
     mutate: result.mutate,

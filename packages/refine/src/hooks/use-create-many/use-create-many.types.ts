@@ -15,7 +15,7 @@ export type UseCreateManyProps<
 export interface UseCreateManyReturnType<
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 > {
   mutate: (variables?: any, options?: any) => void;
   mutateAsync: (variables?: any, options?: any) => Promise<CreateManyResponse<TData>>;

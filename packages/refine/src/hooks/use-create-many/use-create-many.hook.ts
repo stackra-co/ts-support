@@ -5,11 +5,11 @@ import type { UseCreateManyProps, UseCreateManyReturnType } from './use-create-m
 export const useCreateMany = <
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
-  TVariables = {},
+  _TVariables = {},
 >(
-  props?: UseCreateManyProps<TData, TError, TVariables>
-): UseCreateManyReturnType<TData, TError, TVariables> => {
-  const result = useCreateManyOriginal<TData, TError, TVariables>(props ?? {});
+  props?: UseCreateManyProps<TData, TError, _TVariables>
+): UseCreateManyReturnType<TData, TError, _TVariables> => {
+  const result = useCreateManyOriginal<TData, TError, _TVariables>(props ?? {});
 
   return {
     mutate: result.mutate,
