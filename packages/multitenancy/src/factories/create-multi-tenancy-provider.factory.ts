@@ -22,10 +22,11 @@
  */
 
 import type { BaseKey } from '@refinedev/core';
-import type { TenantConfig } from '@/interfaces/tenant-config-extended.interface';
+import type { TenantConfig } from '@/interfaces/tenant-config.interface';
 import type { IMultiTenancyProvider } from '@/interfaces/multi-tenancy-provider.interface';
 import type { TenantResolver } from '@/interfaces/tenant-resolver.interface';
 import type { GetTenantParams, SetTenantParams, Tenant, TenantResponse } from '@/types';
+import type { CreateMultiTenancyProviderOptions } from '@/interfaces/create-multi-tenancy-provider-options.interface';
 import { createResolverChain } from '@/utils';
 import {
   DomainResolver,
@@ -36,57 +37,6 @@ import {
   ServerDomainResolver,
   SubdomainResolver,
 } from '@/resolvers';
-
-/**
- * Options for creating a multi-tenancy provider
- */
-export interface CreateMultiTenancyProviderOptions {
-  /**
-   * Tenant configuration
-   */
-  config: TenantConfig;
-
-  /**
-   * Function to fetch all tenants from the backend
-   *
-   * @returns Promise resolving to TenantResponse
-   */
-  fetchTenants: () => Promise<TenantResponse>;
-
-  /**
-   * Optional function to fetch a specific tenant by ID
-   *
-   * @param params - Parameters containing tenant ID
-   * @returns Promise resolving to Tenant
-   */
-  fetchTenant?: (params: GetTenantParams) => Promise<Tenant>;
-
-  /**
-   * Custom resolvers to add to the resolver chain
-   *
-   * @example
-   * ```typescript
-   * customResolvers: {
-   *   "custom": new MyCustomResolver()
-   * }
-   * ```
-   */
-  customResolvers?: Record<string, TenantResolver>;
-
-  /**
-   * API endpoint for dynamic domain resolution
-   * Only used if "dynamic-domain" resolver is configured
-   *
-   * @example "/api/tenants/resolve"
-   */
-  dynamicDomainApiUrl?: string;
-
-  /**
-   * Cache TTL for dynamic domain resolver (in seconds)
-   * @default 300 (5 minutes)
-   */
-  dynamicDomainCacheTTL?: number;
-}
 
 /**
  * Creates a multi-tenancy provider instance.

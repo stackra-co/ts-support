@@ -2,7 +2,7 @@
  * Providers
  */
 
-export type { MultitenancyConfig } from './auth-multitenancy';
+export type { MultitenancyConfig } from '@/interfaces/multitenancy-config.interface';
 export { withMultitenancy, createTenantSwitcher, createTenantContext } from './auth-multitenancy';
 
 export { createDataProvider } from './data';

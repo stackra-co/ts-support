@@ -27,57 +27,8 @@
 import { useGo } from '@refinedev/core';
 import { useState } from 'react';
 import { useTenant } from '@/hooks/use-tenant';
-
-/**
- * Options for useTenantSwitch hook
- */
-export interface UseTenantSwitchOptions {
-  /**
-   * Path to navigate to after switching tenant.
-   * Use :tenantId placeholder to inject the tenant ID.
-   *
-   * @example "/dashboard/:tenantId"
-   * @example "/:tenantId/products"
-   */
-  to?: string;
-
-  /**
-   * Callback function called after successful tenant switch
-   *
-   * @param tenantId - ID of the tenant that was switched to
-   */
-  onSuccess?: (tenantId: string) => void;
-
-  /**
-   * Callback function called if tenant switch fails
-   *
-   * @param error - Error that occurred during switch
-   */
-  onError?: (error: Error) => void;
-}
-
-/**
- * Return type for useTenantSwitch hook
- */
-export interface UseTenantSwitchReturn {
-  /**
-   * Function to switch to a different tenant
-   *
-   * @param tenantId - ID of the tenant to switch to
-   * @throws Error if tenant not found
-   */
-  switchTenant: (tenantId: string) => Promise<void>;
-
-  /**
-   * Loading state during tenant switch
-   */
-  isSwitching: boolean;
-
-  /**
-   * Error state if switch fails
-   */
-  error: Error | undefined;
-}
+import type { UseTenantSwitchOptions } from '@/interfaces/use-tenant-switch-options.interface';
+import type { UseTenantSwitchReturn } from '@/interfaces/use-tenant-switch-return.interface';
 
 /**
  * Hook to switch tenants with optional navigation.

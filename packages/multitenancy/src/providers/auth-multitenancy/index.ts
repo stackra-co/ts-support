@@ -8,4 +8,4 @@ export {
   createTenantContext,
 } from './auth-multitenancy.provider';
 
-export type { MultitenancyConfig } from './auth-multitenancy.provider';
+export type { MultitenancyConfig } from '@/interfaces/multitenancy-config.interface';

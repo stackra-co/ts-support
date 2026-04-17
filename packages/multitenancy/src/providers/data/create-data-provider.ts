@@ -23,28 +23,9 @@
 
 import type { DataProvider } from '@refinedev/core';
 import type { IMultiTenancyProvider } from '@/interfaces/multi-tenancy-provider.interface';
-import type { TenantConfig } from '@/interfaces/tenant-config-extended.interface';
+import type { TenantConfig } from '@/interfaces/tenant-config.interface';
+import type { CreateDataProviderOptions } from '@/interfaces/create-data-provider-options.interface';
 import { TenantMode } from '@/enums';
-
-/**
- * Options for creating a tenant-aware data provider
- */
-export interface CreateDataProviderOptions {
-  /**
-   * Base data provider to wrap
-   */
-  baseDataProvider: DataProvider;
-
-  /**
-   * Multi-tenancy provider instance
-   */
-  multiTenancyProvider: IMultiTenancyProvider;
-
-  /**
-   * Tenant configuration
-   */
-  config: TenantConfig;
-}
 
 /**
  * Creates a tenant-aware data provider.

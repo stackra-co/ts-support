@@ -17,64 +17,8 @@
  */
 
 import type { TenantResolver } from '@/interfaces/tenant-resolver.interface';
+import type { DynamicDomainResolverConfig } from '@/interfaces/dynamic-domain-resolver-config.interface';
 import { ResolverPriority } from '@/enums/resolver-priority.enum';
-
-/**
- * Configuration for DynamicDomainResolver
- */
-export interface DynamicDomainResolverConfig {
-  /**
-   * API endpoint to call for tenant resolution
-   * Should accept domain as query parameter
-   *
-   * @example "https://api.example.com/tenants/resolve"
-   */
-  apiUrl: string;
-
-  /**
-   * Cache TTL in seconds
-   *
-   * @default 300 (5 minutes)
-   */
-  cacheTTL?: number;
-
-  /**
-   * Query parameter name for domain
-   *
-   * @default "domain"
-   */
-  domainParam?: string;
-
-  /**
-   * Custom headers to include in API request
-   */
-  headers?: Record<string, string>;
-
-  /**
-   * Response path to tenant ID
-   * Use dot notation for nested properties
-   *
-   * @default "tenantId"
-   * @example "data.tenant.id"
-   */
-  responsePath?: string;
-
-  /**
-   * Optional cache service instance from @abdokouta/react-cache
-   * If not provided, uses in-memory Map cache
-   *
-   * @example
-   * ```typescript
-   * import { CacheService } from '@abdokouta/react-cache';
-   *
-   * const resolver = new DynamicDomainResolver({
-   *   apiUrl: '/api/tenants/resolve',
-   *   cacheService: cacheService,
-   * });
-   * ```
-   */
-  cacheService?: any; // CacheService from @abdokouta/react-cache
-}
 
 /**
  * Dynamic Domain Resolver

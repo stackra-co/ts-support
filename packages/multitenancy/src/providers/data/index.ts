@@ -5,4 +5,4 @@
  */
 
 export { createDataProvider } from './create-data-provider';
-export type { CreateDataProviderOptions } from './create-data-provider';
+export type { CreateDataProviderOptions } from '@/interfaces/create-data-provider-options.interface';

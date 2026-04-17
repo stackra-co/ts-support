@@ -12,4 +12,4 @@ export { RouterResolver } from './router.resolver';
 export { ServerDomainResolver } from './server-domain.resolver';
 export { SubdomainResolver } from './subdomain.resolver';
 
-export type { DynamicDomainResolverConfig } from './dynamic-domain.resolver';
+export type { DynamicDomainResolverConfig } from '@/interfaces/dynamic-domain-resolver-config.interface';

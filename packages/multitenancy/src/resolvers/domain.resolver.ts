@@ -1,6 +1,6 @@
 import type { BaseKey } from '@refinedev/core';
 import type { TenantResolver } from '@/interfaces/tenant-resolver.interface';
-import type { TenantConfig } from '@/interfaces/tenant-config-extended.interface';
+import type { TenantConfig } from '@/interfaces/tenant-config.interface';
 import { ResolverPriority } from '@/enums/resolver-priority.enum';
 
 /**
