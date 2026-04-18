@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2026-04-18
+
+### Fixed
+
+- Replaced `slackapi/slack-github-action@v2` with `curl` for Slack notifications
+  — eliminates Node 20 deprecation warning and fixes silent webhook failures
+  under forced Node 24
+
 ## [2.4.0] - 2026-04-18
 
 ### Changed
