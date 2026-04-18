@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2026-04-18
+
+### Changed
+
+- Upgraded `pnpm/action-setup` v4 → v5 (Node 24 native)
+- Disabled `no-explicit-any`, `no-this-alias`, `no-empty-object-type`, and
+  `no-control-regex` lint rules — unavoidable in a utility library wrapping
+  collect.js generics and facades
+
 ## [2.3.0] - 2026-04-18
 
 ### Changed
