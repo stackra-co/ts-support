@@ -4,7 +4,7 @@
  * Configuration options for creating a registry instance.
  * Allows customization of default item behavior and validation.
  *
- * @module @stackra/ts-support
+ * @module @stackra-inc/ts-support
  * @category Interfaces
  */
 

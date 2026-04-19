@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.5] - 2026-04-20
+
+### Changed
+
+- 🏢 Org rename — migrated from `@stackra` → `@stackra-inc` across package
+  name, repository URLs, author field, peer dependencies, README, workflows,
+  and source file headers
+- 🔧 Updated CI and publish workflows
+- 📝 Updated steering and product docs
+
 ## [2.5.4] - 2026-04-18
 
 ### Fixed

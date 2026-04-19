@@ -4,7 +4,7 @@
  * Defines the contract for a key-value store used internally by
  * registries.
  *
- * @module @stackra/ts-support
+ * @module @stackra-inc/ts-support
  * @category Interfaces
  */
 

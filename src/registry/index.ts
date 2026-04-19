@@ -1,7 +1,7 @@
 /**
  * @fileoverview Registry exports
  *
- * @module @stackra/support
+ * @module @stackra-inc/support
  * @category Registries
  */
 

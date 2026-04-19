@@ -1,7 +1,7 @@
 /**
  * @fileoverview Validation result interface for registry operations.
  *
- * @module @stackra/ts-support
+ * @module @stackra-inc/ts-support
  * @category Interfaces
  */
 

@@ -1,9 +1,9 @@
 /**
- * @fileoverview @stackra/ts-support
+ * @fileoverview @stackra-inc/ts-support
  *
  * Laravel-style utilities for JavaScript/TypeScript.
  *
- * @module @stackra/support
+ * @module @stackra-inc/support
  */
 
 // ============================================================================

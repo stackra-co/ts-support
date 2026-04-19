@@ -1,6 +1,6 @@
 {
-  "name": "@stackra/ts-support",
-  "version": "2.5.4",
+  "name": "@stackra-inc/ts-support",
+  "version": "2.5.5",
   "description": "Laravel-style Str, Collection, and Registry utilities for JavaScript/TypeScript",
   "keywords": [
     "laravel",
@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/stackra-co/ts-support.git"
+    "url": "https://github.com/stackra-inc/ts-support.git"
   },
   "license": "MIT",
-  "author": "stackra",
+  "author": "stackra-inc",
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -56,10 +56,10 @@
     "collect.js": "^4.36.1"
   },
   "peerDependencies": {
-    "@stackra/ts-container": "^2.0.4"
+    "@stackra-inc/ts-container": "^2.0.4"
   },
   "peerDependenciesMeta": {
-    "@stackra/ts-container": {
+    "@stackra-inc/ts-container": {
       "optional": true
     }
   },
