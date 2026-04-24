@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.7] - 2026-04-24
+
+### Fixed
+
+- 📦 **Exports map fix** — corrected `package.json` exports to match actual tsup
+  build output (`import` → `./dist/index.js`, `require` → `./dist/index.cjs`).
+  Previously referenced non-existent `index.mjs` for ESM entry point.
+- 📝 **tsup.config.ts comment fix** — corrected build output filenames in JSDoc
+  to match actual output when `"type": "module"` is set
+
 ## [2.5.6] - 2026-04-20
 
 ### Changed
