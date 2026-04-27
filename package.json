@@ -100,5 +100,19 @@
       "eslint": "^9.28.0",
       "vite": "^7.2.6"
     }
+  },
+  "stackra": {
+    "publish": {
+      "steering": {
+        "source": ".kiro/steering/",
+        "destination": ".kiro/steering/{module}/",
+        "description": "Kiro AI steering files for support utilities"
+      },
+      "hooks": {
+        "source": ".kiro/hooks/",
+        "destination": ".kiro/hooks/",
+        "description": "Kiro hooks (SVG to PNG banner conversion)"
+      }
+    }
   }
 }
