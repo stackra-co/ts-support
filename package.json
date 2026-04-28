@@ -1,6 +1,6 @@
 {
   "name": "@stackra/ts-support",
-  "version": "2.5.9",
+  "version": "2.6.0",
   "description": "Laravel-style Str, Collection, and Registry utilities for JavaScript/TypeScript",
   "keywords": [
     "laravel",
@@ -26,6 +26,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./@types": {
+      "types": "./@types/index.d.ts"
     }
   },
   "main": "./dist/index.cjs",
@@ -33,6 +36,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
+    "@types",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
