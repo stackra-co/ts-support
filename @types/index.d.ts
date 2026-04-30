@@ -37,9 +37,7 @@
  * @module @stackra/ts-support/@types
  */
 
-import type { Collection } from '../src/collections/collection';
-import type { MapCollection } from '../src/collections/map.collection';
-import type { SetCollection } from '../src/collections/set.collection';
+import type { Collection, MapCollection, SetCollection } from '@stackra/ts-support';
 
 declare global {
   // ════════════════════════════════════════════════════════════════════════

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.1] - 2026-04-30
+
+### Fixed
+
+- **@types import paths** — changed `../src/` relative imports to
+  `@stackra/ts-support` package imports in `@types/index.d.ts`. Fixes type
+  resolution when consumed as an npm package (the `../src/` paths don't exist
+  in published packages)
+- **engines** — relaxed `node` requirement from `>=22` to `>=20` for broader
+  compatibility
+
 ## [2.6.0] - 2026-04-29
 
 ### Added
