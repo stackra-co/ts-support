@@ -18,14 +18,14 @@
 // Import the Linter type for type-safe configuration
 import type { Linter } from 'eslint';
 
-// Import the shared Vite-optimized ESLint configuration from @stackra/eslint-config.
-// This includes TypeScript, import ordering, and style rules.
-import { viteConfig } from '@stackra/eslint-config';
+// Import the shared base ESLint configuration from @stackra/eslint-config.
+// Uses baseConfig (no React rules) since this is a pure TypeScript utility library.
+import { baseConfig } from '@stackra/eslint-config';
 
 const config: Linter.Config[] = [
-  // Spread the shared Stackra ESLint configuration.
-  // Includes TypeScript, import, and style rules.
-  ...viteConfig,
+  // Spread the shared Stackra ESLint base configuration.
+  // Includes TypeScript, import, and style rules — no React.
+  ...baseConfig,
 
   // Files and directories excluded from linting:
   //   - dist/          — build output (generated code)

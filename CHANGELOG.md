@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.2] - 2026-04-30
+
+### Fixed
+
+- **ESLint config** — switched from `viteConfig` to `baseConfig` in
+  `eslint.config.ts`. The `viteConfig` preset includes `eslint-plugin-react`
+  which is incompatible with ESLint 10 (`context.getFilename()` removed).
+  Since `ts-support` is a pure TypeScript utility library with no React,
+  the base config is the correct choice.
+- **ESLint version** — pinned to `^9.28.0` until `eslint-plugin-react`
+  adds ESLint 10 support
+
 ## [2.6.1] - 2026-04-30
 
 ### Fixed
