@@ -168,9 +168,45 @@ export abstract class Facade {
     return new Proxy({} as T, {
       /**
        * Intercept property access and forward to the resolved instance.
+       *
+       * When the application hasn't been set yet (e.g. during module
+       * evaluation or React Fast Refresh inspection), returns graceful
+       * defaults for introspection properties instead of throwing.
        */
       get(_target: T, prop: string | symbol): any {
+        // ── Graceful handling before bootstrap ─────────────────────────
+        // React Fast Refresh, DevTools, and other tools inspect exports
+        // at module evaluation time by calling toString(), valueOf(), etc.
+        // The app isn't set yet at that point — return safe defaults.
         if (!facade.app) {
+          // Symbol properties used by JS runtime for type coercion
+          if (prop === Symbol.toPrimitive) return () => `[Facade:${String(token)}]`;
+          if (prop === Symbol.toStringTag) return `Facade<${String(token)}>`;
+          if (prop === Symbol.iterator) return undefined;
+
+          // String coercion properties
+          if (prop === 'toString') return () => `[Facade:${String(token)}]`;
+          if (prop === 'valueOf') return () => null;
+          if (prop === 'toJSON') return () => null;
+
+          // React / DevTools inspection properties
+          if (prop === '$$typeof') return undefined;
+          if (prop === 'constructor') return undefined;
+          if (prop === 'prototype') return undefined;
+          if (prop === 'render') return undefined;
+          if (prop === 'displayName') return undefined;
+          if (prop === 'name') return `Facade<${String(token)}>`;
+          if (prop === 'length') return 0;
+          if (prop === 'caller') return undefined;
+          if (prop === 'arguments') return undefined;
+          if (prop === 'apply') return undefined;
+          if (prop === 'call') return undefined;
+          if (prop === 'bind') return undefined;
+
+          // Node.js / util.inspect
+          if (typeof prop === 'string' && prop.startsWith('@@__IMMUTABLE')) return undefined;
+          if (prop === 'inspect' || prop === 'nodeType') return undefined;
+
           throw new Error(
             `Facade accessor for '${String(token)}' cannot resolve — ` +
               `no application has been set. Call Facade.setApplication(app) during bootstrap.`

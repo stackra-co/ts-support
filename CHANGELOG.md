@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.3] - 2026-05-02
+
+### Fixed
+
+- **Facade proxy** — `Facade.make()` proxy now returns graceful defaults for
+  introspection properties (`toString`, `valueOf`, `Symbol.toPrimitive`,
+  `Symbol.toStringTag`, `$$typeof`, `constructor`, etc.) when the application
+  hasn't been set yet. Previously, any property access on a Facade proxy before
+  `Facade.setApplication(app)` would throw. This caused `Uncaught Error` noise
+  in development when React Fast Refresh inspected module exports at evaluation
+  time (before bootstrap). The app still boots correctly — the errors were
+  cosmetic but confusing.
+
 ## [2.6.2] - 2026-04-30
 
 ### Fixed
