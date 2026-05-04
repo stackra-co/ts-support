@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.4] - 2026-05-04
+
+### Added
+
+- **str() global helper** — Added `str()` function to global helpers that provides
+  access to the `Str` utility class. After calling `bootGlobals()`, you can use
+  `str().camel()`, `str().snake()`, `str().kebab()`, and all other Str methods
+  globally without imports
+- **Type declarations** — Added `str()` function signature to `@types/index.d.ts`
+  for full TypeScript support
+
+### Changed
+
+- **Global helpers** — Updated `bootGlobals()` to register the `str()` function
+  in the GlobalRegistry
+- **Exports** — Added `str` to the exported functions from `src/globals/index.ts`
+
 ## [2.6.3] - 2026-05-02
 
 ### Fixed

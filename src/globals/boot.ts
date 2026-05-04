@@ -30,6 +30,7 @@ import {
   _collectMap,
   _collectSet,
   value,
+  str,
   tap,
   filled,
   blank,
@@ -75,6 +76,13 @@ export function bootGlobals(): void {
   if (GlobalRegistry.isBooted()) {
     return;
   }
+
+  /* ── String ─────────────────────────────────────────────────────── */
+
+  GlobalRegistry.register('str', str, {
+    description: 'Access the Str utility class for Laravel-style string manipulation',
+    source: SOURCE,
+  });
 
   /* ── Environment ─────────────────────────────────────────────────────── */
 

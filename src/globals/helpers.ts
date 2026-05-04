@@ -35,6 +35,7 @@
 
 import { Env } from '@/env';
 import { Collection, MapCollection, SetCollection } from '@/collections';
+import { Str } from '@/str';
 
 // ============================================================================
 // Environment
@@ -165,6 +166,27 @@ export function _collectSet<T>(items?: Iterable<T>): SetCollection<T> {
  */
 export function value<T>(val: T | ((...args: any[]) => T), ...args: any[]): T {
   return typeof val === 'function' ? (val as (...a: any[]) => T)(...args) : val;
+}
+
+/**
+ * Get access to the Str utility class for string manipulation.
+ *
+ * Returns the Str class which provides Laravel-style string helpers
+ * like camel(), snake(), kebab(), slug(), and many more.
+ *
+ * @returns The Str utility class
+ *
+ * @example
+ * ```typescript
+ * str().camel('hello-world');      // 'helloWorld'
+ * str().snake('HelloWorld');       // 'hello_world'
+ * str().kebab('HelloWorld');       // 'hello-world'
+ * str().slug('Hello World!');      // 'hello-world'
+ * str().limit('Long text...', 10); // 'Long text...'
+ * ```
+ */
+export function str() {
+  return Str;
 }
 
 /**

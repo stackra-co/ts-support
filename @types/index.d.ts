@@ -142,6 +142,29 @@ declare global {
   function value<T>(val: T | ((...args: any[]) => T), ...args: any[]): T;
 
   /**
+   * Convert any value to a string representation.
+   *
+   * Handles various types intelligently:
+   * - Primitives → string conversion
+   * - Objects/Arrays → JSON.stringify
+   * - null/undefined → empty string
+   * - Functions → function source code
+   *
+   * @param val - The value to convert to string
+   * @returns String representation of the value
+   *
+   * @example
+   * ```typescript
+   * str(123);                    // '123'
+   * str({ name: 'Alice' });      // '{"name":"Alice"}'
+   * str([1, 2, 3]);              // '[1,2,3]'
+   * str(null);                   // ''
+   * str(undefined);              // ''
+   * ```
+   */
+  function str(val: unknown): string;
+
+  /**
    * Call a callback with the given value for side effects, then return the value.
    *
    * @typeParam T - The value type
