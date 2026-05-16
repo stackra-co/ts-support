@@ -47,12 +47,12 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@stackra/contracts": "workspace:*",
+    "@stackra/contracts": "*",
     "@tanstack/pacer": "^0.21.1",
     "collect.js": "^4.36.1"
   },
   "devDependencies": {
-    "@stackra/testing": "workspace:*",
+    "@stackra/testing": "*",
     "@stackra/typescript-config": "*",
     "tslib": "*"
   }
