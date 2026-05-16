@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@stackra/testing": "workspace:*",
-    "@stackra/typescript-config": "catalog:",
-    "tslib": "catalog:"
+    "@stackra/typescript-config": "*",
+    "tslib": "*"
   }
 }
