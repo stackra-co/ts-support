@@ -1,0 +1,59 @@
+{
+  "name": "@stackra/ts-support",
+  "version": "2.7.0",
+  "description": "Foundation utility layer — Str, Arr, Num, Env, BaseRegistry, MultipleInstanceManager, and collection wrappers",
+  "license": "MIT",
+  "author": {
+    "name": "Stackra L.L.C",
+    "email": "dev@stackra.com",
+    "url": "https://stackra.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stackra-inc/ts-support.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stackra-inc/ts-support/issues"
+  },
+  "homepage": "https://github.com/stackra-inc/ts-support#readme",
+  "keywords": [
+    "stackra",
+    "typescript",
+    "utilities",
+    "string",
+    "collection",
+    "registry",
+    "support"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.cache",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@stackra/contracts": "workspace:*",
+    "@tanstack/pacer": "^0.21.1",
+    "collect.js": "^4.36.1"
+  },
+  "devDependencies": {
+    "@stackra/testing": "workspace:*",
+    "@stackra/typescript-config": "catalog:",
+    "tslib": "catalog:"
+  }
+}
